@@ -35,6 +35,7 @@
   - **生命周期接管**：通过 `app.manage(menu)` 将托盘菜单对象托付给应用全局状态管理器，避免 Rust 局部变量在 `setup` 结束时触发 `Drop` 导致系统底层 OS 菜单资源被强杀，保证菜单弹出的稳定性。
 - **卡牌洗牌算法修正 (`Fisher-Yates Shuffle Fix`)**：将 `src/data/tarotDeck.ts` 中的牌阵随机生成逻辑从带有分布偏差的 `Array.prototype.sort(() => Math.random() - 0.5)` 修正为标准的 **Fisher-Yates (Knuth) 洗牌算法**，确保三张牌阵抽取概率在数学上绝对均匀，并严格对齐项目底层设计规范。
 - **主界面控制按钮修复 (`Header Action Buttons Fix`)**：修复了主界面右上角洗牌 (`btnShuffle`) 与隐藏 (`btnHide`) 按钮失效的问题。为 `btnHide` 补充了 Tauri 引擎必须的 `core:window:allow-hide` 窗口操作权限；为 `btnShuffle` 补充了洗牌 CSS 动画 (`shuffle-anim`) 提供重新发牌的视觉反馈，并将根节点拖拽监听器的绑定移至初始化阶段，杜绝了重绘时的事件内存泄漏。
+- **生产依赖配置修正 (`Production Dependency Fix`)**：将 `playwright` 自动化测试框架从 `dependencies` 移动至 `devDependencies`，避免在 Tauri 桌面端构建时引入不必要的测试环境包，减小最终分发体积。
 
 ## [0.1.0] - 2026-07-18
 ### Added
