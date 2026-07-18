@@ -29,6 +29,7 @@ in this project.
    - After each atomic fix, verify and test the functionality (e.g. running `npm run build` or `npm run tauri dev`), and check if any documentation needs updating.
    - Never batch multiple tasks without completing the verification loop for each step.
 6. Test-Driven Development (TDD): When adding logic or fixing bugs, follow the RED-GREEN-REFACTOR cycle. Write a failing test first, make it pass with minimal code, then refactor. For bug fixes, always write a reproduction test (Prove-It Pattern) before implementing the fix.
+7. Test & Documentation Synchronization: Whenever you modify a source file, you MUST always check and modify the corresponding test file to ensure test coverage is maintained. Additionally, you MUST update any relevant documentation (e.g., `CHANGELOG.md`, `docs/`, or inline architectural comments) to reflect the changes.
 
 ## Architecture Boundaries
 
