@@ -19,6 +19,20 @@ export class TarotWidget {
   private init() {
     this.root.className = 'widget-root';
     this.root.setAttribute('data-tauri-drag-region', '');
+    
+    // Explicit window dragging fallback for empty root space
+    this.root.addEventListener('mousedown', async (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target === this.root || target.id === 'cardsGrid' || target.classList.contains('tarot-card-slot')) {
+        if (e.button !== 0) return;
+        try {
+          await getCurrentWindow().startDragging();
+        } catch (err) {
+          console.warn('Root startDragging API error:', err);
+        }
+      }
+    });
+
     this.drawNewSpread();
   }
 
@@ -27,6 +41,14 @@ export class TarotWidget {
     this.cards = getRandomSpread(3);
     this.flippedIndices.clear();
     this.render();
+
+    // Trigger visual shuffle animation
+    const grid = this.root.querySelector('#cardsGrid') as HTMLElement;
+    if (grid) {
+      grid.classList.remove('shuffle-anim');
+      void grid.offsetWidth; // Force reflow
+      grid.classList.add('shuffle-anim');
+    }
   }
 
   private render() {
@@ -40,6 +62,7 @@ export class TarotWidget {
         <div class="header-actions" data-tauri-drag-region="false">
           <button class="icon-btn" id="btnShuffle" title="洗牌·重塑牌阵 (Reshuffle)">🔀</button>
           <button class="icon-btn" id="btnSettings" title="契约钥匙·API设置 (Settings)">⚙️</button>
+          <button class="icon-btn" id="btnHide" title="隐藏至托盘 (Hide to Tray)">_</button>
           <button class="icon-btn" id="btnClose" title="退出占卜微件 (Exit)">✕</button>
         </div>
       </div>
@@ -99,10 +122,19 @@ export class TarotWidget {
     // Header controls
     const btnShuffle = this.root.querySelector('#btnShuffle') as HTMLButtonElement;
     const btnSettings = this.root.querySelector('#btnSettings') as HTMLButtonElement;
+    const btnHide = this.root.querySelector('#btnHide') as HTMLButtonElement;
     const btnClose = this.root.querySelector('#btnClose') as HTMLButtonElement;
 
     btnShuffle?.addEventListener('click', () => this.drawNewSpread());
     btnSettings?.addEventListener('click', () => this.settingsModal.show());
+    
+    btnHide?.addEventListener('click', async () => {
+      try {
+        await getCurrentWindow().hide();
+      } catch (e) {
+        console.warn('Window hide API error:', e);
+      }
+    });
 
     btnClose?.addEventListener('click', async () => {
       try {
@@ -112,7 +144,7 @@ export class TarotWidget {
       }
     });
 
-    // Explicit window dragging fallback for header capsule and empty root space
+    // Explicit window dragging fallback for header capsule
     const headerCapsule = this.root.querySelector('.floating-header-capsule') as HTMLElement;
     headerCapsule?.addEventListener('mousedown', async (e: MouseEvent) => {
       if ((e.target as HTMLElement).closest('.header-actions')) return;
@@ -121,18 +153,6 @@ export class TarotWidget {
         await getCurrentWindow().startDragging();
       } catch (err) {
         console.warn('Header startDragging API error:', err);
-      }
-    });
-
-    this.root.addEventListener('mousedown', async (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target === this.root || target.id === 'cardsGrid' || target.classList.contains('tarot-card-slot')) {
-        if (e.button !== 0) return;
-        try {
-          await getCurrentWindow().startDragging();
-        } catch (err) {
-          console.warn('Root startDragging API error:', err);
-        }
       }
     });
 

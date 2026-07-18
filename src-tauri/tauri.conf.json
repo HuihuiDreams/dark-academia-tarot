@@ -10,6 +10,9 @@
     "beforeBuildCommand": "npm run build"
   },
   "app": {
+    "trayIcon": {
+      "iconPath": "icons/icon.png"
+    },
     "windows": [
       {
         "label": "main",

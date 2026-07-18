@@ -1,0 +1,6 @@
+{
+  "name": "test-env",
+  "dependencies": {
+    "playwright": "^1.45.0"
+  }
+}

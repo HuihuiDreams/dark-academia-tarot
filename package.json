@@ -13,12 +13,14 @@
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2.11.4",
+    "jsdom": "^29.1.1",
     "typescript": "~6.0.2",
     "vite": "^8.1.1",
     "vitest": "^4.1.10"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
-    "@tauri-apps/api": "^2.11.1"
+    "@tauri-apps/api": "^2.11.1",
+    "playwright": "^1.61.1"
   }
 }

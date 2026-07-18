@@ -166,6 +166,16 @@ html, body, #app {
   background: transparent !important;
 }
 
+@keyframes shuffleAnim {
+  0% { opacity: 0; transform: translateY(-10px) scale(0.95) rotateY(15deg); }
+  50% { opacity: 0.5; transform: translateY(5px) scale(1.02) rotateY(-5deg); }
+  100% { opacity: 1; transform: translateY(0) scale(1) rotateY(0deg); }
+}
+
+.shuffle-anim {
+  animation: shuffleAnim 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
 /* Individual Tarot Card Slot */
 .tarot-card-slot {
   display: flex;
