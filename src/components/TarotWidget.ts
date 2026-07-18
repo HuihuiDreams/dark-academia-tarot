@@ -85,11 +85,11 @@ export class TarotWidget {
           placeholder="在此敲下心中困惑，或卡壳难题..." 
           autocomplete="off"
         />
-        <button class="submit-btn" id="btnSubmit" disabled title="必须翻开三张牌方可召唤解答">✨</button>
+        <button class="submit-btn" id="btnSubmit" disabled title="必须翻开三张牌方可召唤解答">🔮</button>
       </div>
 
       <!-- Floating Interpretation Scroll Area -->
-      <div id="interpretationContainer" data-tauri-drag-region="false" style="width: 100%; display: flex; justify-content: center;"></div>
+      <div id="interpretationContainer" data-tauri-drag-region="false" style="width: 100%; display: flex; justify-content: center; flex: 1; min-height: 0;"></div>
     `;
 
     this.bindEvents();
@@ -221,11 +221,11 @@ export class TarotWidget {
 
     if (this.flippedIndices.size === 3) {
       statusBox.innerHTML = `✨ 三牌尽启！请敲下心事，轻击 ✨ 开启暗黑启示`;
-      statusBox.style.color = 'var(--gold-primary)';
+      statusBox.style.color = 'var(--ink-red)';
       if (btnSubmit) btnSubmit.disabled = false;
     } else {
       statusBox.innerHTML = `已翻开 ${this.flippedIndices.size} / 3 张，轻触卡牌探索深潜运势`;
-      statusBox.style.color = 'var(--parchment)';
+      statusBox.style.color = 'var(--ink-primary)';
       if (btnSubmit) btnSubmit.disabled = true;
     }
   }
@@ -276,7 +276,14 @@ export class TarotWidget {
           headerStatus.textContent = '✒️ 鹅毛笔疾书流淌...';
         }
         fullText += chunk;
-        textBox.textContent = fullText;
+        
+        // Escape HTML and parse **bold** Markdown
+        let safeText = fullText.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        safeText = safeText.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        safeText = safeText.replace(/\*\*([^*]+)$/, '<strong>$1</strong>');
+        
+        textBox.innerHTML = safeText;
+        
         const scrollElem = container.querySelector('.interpretation-body');
         if (scrollElem) {
           scrollElem.scrollTop = scrollElem.scrollHeight;
@@ -294,7 +301,7 @@ export class TarotWidget {
         if (inputQuestion) inputQuestion.disabled = false;
         loadingBox.style.display = 'none';
         textBox.style.display = 'block';
-        textBox.style.color = '#df737d';
+        textBox.style.color = 'var(--ink-red)';
         textBox.textContent = `[占卜通联异常] ${errMsg}`;
         headerStatus.textContent = '⚠️ 契约中断';
       }

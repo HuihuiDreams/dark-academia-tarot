@@ -63,7 +63,8 @@ Tarot/
 │   └── decisions/                     # 架构决策记录 (ADR)
 │       ├── ADR-001-tauri-frameless-transparent-window.md
 │       ├── ADR-002-gemini-ai-streaming-and-xor-fallback-key.md
-│       └── ADR-003-tarot-deck-single-source-of-truth.md
+│       ├── ADR-003-tarot-deck-single-source-of-truth.md
+│       └── ADR-004-tauri-v2-system-tray-management.md
 ├── src/
 │   ├── main.ts                        # 前端主入口，挂载 #app -> TarotWidget
 │   ├── styles.css                     # Dark Academia 核心样式、玻璃拟态及翻牌 3D 动画

@@ -32,7 +32,8 @@ in this project.
 
 ## Architecture Boundaries
 
-1. Rust/Tauri Backend (`src-tauri/src/lib.rs`, `src-tauri/src/main.rs`): owns Tauri application initialization, frameless transparent window setup (`transparent: true`, `decorations: false`, `alwaysOnTop: true`, shadow suppression via `window.set_shadow(false)`), IPC handlers (`get_fallback_api_key`), XOR key decryption/obfuscation (`DEFAULT_GEMINI_KEY_XOR`), and native capabilities. Never expose unencrypted raw API keys in Rust source or client code.
+1. Rust/Tauri Backend (`src-tauri/src/lib.rs`, `src-tauri/src/main.rs`): owns Tauri application initialization, system tray setup and event handling, frameless transparent window setup (`transparent: true`, `decorations: false`, `alwaysOnTop: true`, shadow suppression via `window.set_shadow(false)`), IPC handlers (`get_fallback_api_key`), XOR key decryption/obfuscation (`DEFAULT_GEMINI_KEY_XOR`), and native capabilities. Never expose unencrypted raw API keys in Rust source or client code.
+   - **System Tray Rules (See ADR-004)**: Rely on `tauri.conf.json`'s `trayIcon` config to automatically build the tray. Retrieve it via `app.tray_by_id("main")` to attach menus instead of using `TrayIconBuilder`, and ensure menus are explicitly managed via `app.manage()` to prevent `Drop` destruction. For foreground activation on macOS, always use the `app.show()` -> `window.unminimize()` -> `window.show()` sequence.
 2. Frontend Entry & Lifecycle (`src/main.ts`, `index.html`): initializes the root container `#app` and instantiates `TarotWidget`.
 3. UI & Widget Controller (`src/components/`):
    - `TarotWidget.ts`: owns the 3-card spread grid (`cardsGrid`), card flipping state machine (`flippedIndices`), window drag regions (`data-tauri-drag-region`), question input capsule (`#questionInput`), status banner, and interpretation rendering (`#interpretationContainer`).
@@ -41,7 +42,7 @@ in this project.
 
 ## Runtime Constraints & Window Behavior
 
-1. Tauri Frameless & Transparent Window Management (`tauri.conf.json`, `styles.css`): The widget runs as a floating, transparent, always-on-top desktop window (`520x720`). When adding or modifying HTML elements:
+1. Tauri Frameless & Transparent Window Management (`tauri.conf.json`, `styles.css`): The widget runs as a floating, transparent, always-on-top desktop window (`520x720`). It supports minimizing to the system tray via the `btnHide` frontend control and `tauri::tray` backend implementation to minimize desktop clutter. When adding or modifying HTML elements:
    - Ensure drag regions (`data-tauri-drag-region`) are explicitly assigned to background headers/containers so users can reposition the window smoothly across displays.
    - Mark interactive controls, buttons (`.icon-btn`, `.submit-btn`), text inputs (`#questionInput`), modals (`.modal-dialog`), and scrollable content containers (`#interpretationContainer`) with `data-tauri-drag-region="false"` so Tauri does not swallow mouse clicks, text selection, or scroll events.
 2. AI Streaming & Error Recovery (`GeminiService.ts`):

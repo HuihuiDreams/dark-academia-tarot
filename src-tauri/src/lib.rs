@@ -1,15 +1,10 @@
-use tauri::Manager;
+use tauri::{
+    menu::{Menu, MenuItem},
+    Manager,
+};
 
 // ----------------------------------------------------------------------------
 // XOR Obfuscated Built-in Free Gemini API Key
-// ----------------------------------------------------------------------------
-// To convert any raw Google Gemini API Key (e.g. "AIzaSy...") into an XOR byte
-// array without GitHub Secret Scanning detecting and revoking it, run this one-liner
-// in your terminal / Node.js console:
-//
-// node -e "console.log(Array.from('AIzaSyYourApiKeyHere').map(c => c.charCodeAt(0) ^ 0x5A))"
-//
-// Then paste the output array into `DEFAULT_GEMINI_KEY_XOR` below!
 // ----------------------------------------------------------------------------
 const XOR_SECRET: u8 = 0x5A;
 
@@ -33,6 +28,62 @@ pub fn run() {
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![get_fallback_api_key])
     .setup(|app| {
+      let quit_i = MenuItem::with_id(app, "quit", "退出 (Quit)", true, None::<&str>)?;
+      let show_i = MenuItem::with_id(app, "show", "显示 (Show)", true, None::<&str>)?;
+      let menu = Menu::with_items(app, &[&show_i, &quit_i])?;
+
+      // In Tauri v2, if `trayIcon` is in `tauri.conf.json`, it is automatically created
+      // with the ID "main" or "default". Let's try to get it.
+      if let Some(tray) = app.tray_by_id("main") {
+          let _ = tray.set_menu(Some(menu.clone()));
+          let _ = tray.set_show_menu_on_left_click(true);
+          tray.on_menu_event(move |app, event| {
+              println!("Tray Menu event triggered: {:?}", event.id.as_ref());
+              match event.id.as_ref() {
+                  "quit" => {
+                      println!("Exiting application...");
+                      app.exit(0);
+                  }
+                  "show" => {
+                      println!("Showing application...");
+                      let _ = app.show();
+                      if let Some(window) = app.get_webview_window("main") {
+                          let _ = window.unminimize();
+                          let _ = window.show();
+                          let _ = window.set_focus();
+                      }
+                  }
+                  _ => {}
+              }
+          });
+      } else if let Some(tray) = app.tray_by_id("default") {
+          let _ = tray.set_menu(Some(menu.clone()));
+          let _ = tray.set_show_menu_on_left_click(true);
+          tray.on_menu_event(move |app, event| {
+              println!("Tray Menu event triggered: {:?}", event.id.as_ref());
+              match event.id.as_ref() {
+                  "quit" => {
+                      println!("Exiting application...");
+                      app.exit(0);
+                  }
+                  "show" => {
+                      println!("Showing application...");
+                      let _ = app.show();
+                      if let Some(window) = app.get_webview_window("main") {
+                          let _ = window.unminimize();
+                          let _ = window.show();
+                          let _ = window.set_focus();
+                      }
+                  }
+                  _ => {}
+              }
+          });
+      } else {
+          println!("WARNING: No default tray icon found!");
+      }
+
+      app.manage(menu);
+
       if let Some(window) = app.get_webview_window("main") {
         let _ = window.set_shadow(false);
       }
@@ -59,7 +110,6 @@ mod tests {
         if DEFAULT_GEMINI_KEY_XOR.is_empty() {
             assert_eq!(key, "");
         } else {
-            // Check length matches the XOR array
             assert_eq!(key.len(), DEFAULT_GEMINI_KEY_XOR.len());
         }
     }
