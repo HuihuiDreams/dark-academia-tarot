@@ -1,0 +1,615 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Noto+Serif+SC:wght@400;600&display=swap');
+
+:root {
+  /* Dark Academia Floating Color Palette */
+  --gold-primary: #c5a059;
+  --gold-light: #e8d098;
+  --gold-dark: #8c6a2c;
+  --parchment: #e6d5ac;
+  --parchment-dim: #a6997b;
+  --crimson: #6e262c;
+  --border-gold: rgba(197, 160, 89, 0.45);
+  --shadow-dark: rgba(0, 0, 0, 0.85);
+  --shadow-gold: rgba(197, 160, 89, 0.25);
+
+  /* Typography Fallbacks for Windows & macOS */
+  --font-title: 'Playfair Display', 'Cormorant Garamond', 'Noto Serif SC', 'Songti SC', 'SimSun', 'Times New Roman', serif;
+  --font-body: 'Cormorant Garamond', 'Noto Serif SC', 'Songti SC', 'SimSun', 'Times New Roman', serif;
+}
+
+/* Strict resets: 100% Transparent, ZERO Window Border, ZERO Opaque Background */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+html, body, #app {
+  width: 100vw;
+  height: 100vh;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: var(--font-body);
+  color: var(--parchment);
+}
+
+/* 
+  Floating Widget Root:
+  Invisible transparent stage where ONLY individual UI elements have shadows.
+  Clicking any empty area lets you drag the widget across the desktop wallpaper.
+*/
+.widget-root {
+  width: 100%;
+  height: 100%;
+  background: transparent !important;
+  border: none !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 16px;
+  gap: 12px;
+  position: relative;
+}
+
+/* Floating Top Capsule / Header Ribbon (Draggable Handle) */
+.floating-header-capsule {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 96%;
+  max-width: 460px;
+  height: 44px;
+  padding: 0 14px;
+  background: rgba(18, 20, 28, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1.2px solid rgba(197, 160, 89, 0.4);
+  border-radius: 999px;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 15px rgba(197, 160, 89, 0.15));
+  cursor: grab;
+  transition: border-color 0.3s ease, transform 0.2s ease;
+  z-index: 50;
+}
+
+.floating-header-capsule:hover {
+  border-color: var(--gold-primary);
+}
+
+.floating-header-capsule:active {
+  cursor: grabbing;
+}
+
+.header-title-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.header-icon {
+  font-size: 16px;
+  filter: drop-shadow(0 0 6px var(--gold-primary));
+}
+
+.header-title {
+  font-family: var(--font-title);
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  color: var(--gold-light);
+  text-transform: uppercase;
+}
+
+/* Header Controls inside capsule */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 60;
+}
+
+.icon-btn {
+  background: rgba(29, 32, 45, 0.65);
+  border: 1px solid rgba(197, 160, 89, 0.35);
+  color: var(--gold-primary);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+}
+
+.icon-btn:hover {
+  background: var(--gold-primary);
+  color: #0f1015;
+  box-shadow: 0 0 12px var(--shadow-gold);
+  transform: scale(1.08);
+}
+
+/* Spread Prompt / Status Indicator (Floating Text) */
+.floating-status-banner {
+  text-align: center;
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--parchment);
+  letter-spacing: 1px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9), 0 0 10px rgba(0, 0, 0, 0.8);
+  min-height: 16px;
+  pointer-events: none;
+}
+
+/* Floating 3-Cards Grid */
+.floating-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  width: 100%;
+  max-width: 480px;
+  perspective: 1200px;
+  margin: 2px 0;
+  background: transparent !important;
+}
+
+/* Individual Tarot Card Slot */
+.tarot-card-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: transparent !important;
+}
+
+.card-position-label {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: var(--gold-light);
+  font-weight: 600;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95), 0 0 8px rgba(197, 160, 89, 0.5);
+  pointer-events: none;
+}
+
+.tarot-card-scene {
+  width: 100%;
+  aspect-ratio: 3 / 5.1;
+  perspective: 1200px;
+  cursor: pointer;
+  /* Card Drop-Shadow directly floating over desktop wallpaper */
+  filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.88)) drop-shadow(0 0 14px rgba(197, 160, 89, 0.15));
+  transition: filter 0.3s ease;
+}
+
+.tarot-card-scene:hover {
+  filter: drop-shadow(0 20px 36px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 24px rgba(197, 160, 89, 0.45));
+}
+
+.tarot-card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  /* Physical Damping Bounce-Back Transition */
+  transition: transform 0.85s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-radius: 12px;
+}
+
+/* Flipped State */
+.tarot-card-scene.is-flipped .tarot-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Reversed Card State (when flipped) */
+.tarot-card-scene.is-flipped.is-reversed .tarot-card-inner {
+  transform: rotateY(180deg) rotateZ(180deg);
+}
+
+/* Card Faces (Front / Back) */
+.card-face {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #14161f;
+}
+
+.card-face-back {
+  border: 1.2px solid var(--border-gold);
+}
+
+.card-face-back img, .card-face-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-face-front {
+  transform: rotateY(180deg);
+  border: 1.8px solid var(--gold-primary);
+  box-shadow: inset 0 0 18px rgba(197, 160, 89, 0.4);
+}
+
+/* Flipped Card Mini Info below card */
+.card-mini-info {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--parchment);
+  text-align: center;
+  line-height: 1.35;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: all 0.4s ease 0.3s;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+}
+
+.tarot-card-scene.is-flipped + .card-mini-info {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card-status-badge {
+  display: inline-block;
+  font-size: 10px;
+  color: var(--gold-light);
+  border: 1px solid rgba(197, 160, 89, 0.4);
+  padding: 1px 6px;
+  border-radius: 999px;
+  margin-top: 2px;
+  background: rgba(15, 16, 21, 0.85);
+}
+
+.card-status-badge.reversed {
+  color: #df737d;
+  border-color: rgba(223, 115, 125, 0.5);
+}
+
+/* Floating Question Input Capsule */
+.floating-input-capsule {
+  width: 96%;
+  max-width: 470px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(18, 20, 28, 0.86);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1.2px solid rgba(197, 160, 89, 0.45);
+  border-radius: 999px;
+  padding: 4px 6px 4px 16px;
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 12px rgba(197, 160, 89, 0.1));
+  transition: all 0.3s ease;
+}
+
+.floating-input-capsule:focus-within {
+  border-color: var(--gold-primary);
+  background: rgba(22, 25, 36, 0.94);
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 20px rgba(197, 160, 89, 0.35));
+}
+
+.question-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--parchment);
+  outline: none;
+}
+
+.question-input::placeholder {
+  color: rgba(230, 213, 172, 0.4);
+  font-style: italic;
+}
+
+.submit-btn {
+  background: var(--gold-primary);
+  border: none;
+  color: #0f1015;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: var(--gold-light);
+  transform: scale(1.08);
+  box-shadow: 0 0 14px var(--gold-primary);
+}
+
+.submit-btn:disabled {
+  background: rgba(197, 160, 89, 0.25);
+  color: rgba(15, 16, 21, 0.5);
+  cursor: not-allowed;
+}
+
+/* Floating Antique Parchment Interpretation Scroll */
+.floating-interpretation-scroll {
+  width: 96%;
+  max-width: 470px;
+  background: radial-gradient(circle at 50% 0%, rgba(26, 28, 40, 0.92) 0%, rgba(15, 16, 23, 0.94) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid var(--gold-primary);
+  border-radius: 18px;
+  padding: 14px 18px;
+  filter: drop-shadow(0 16px 36px rgba(0, 0, 0, 0.92)) drop-shadow(0 0 24px rgba(197, 160, 89, 0.22));
+  max-height: 220px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: unfoldScroll 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes unfoldScroll {
+  from { opacity: 0; transform: translateY(12px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.interpretation-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 6px;
+  display: block;
+}
+
+.floating-interpretation-scroll::-webkit-scrollbar,
+.interpretation-body::-webkit-scrollbar {
+  width: 4px;
+}
+
+.floating-interpretation-scroll::-webkit-scrollbar-thumb,
+.interpretation-body::-webkit-scrollbar-thumb {
+  background: var(--border-gold);
+  border-radius: 2px;
+}
+
+.interpretation-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px dashed rgba(197, 160, 89, 0.25);
+  padding-bottom: 6px;
+  font-size: 12px;
+  color: var(--gold-light);
+  letter-spacing: 1.5px;
+  flex-shrink: 0;
+}
+
+.interpretation-text {
+  font-size: 14.5px;
+  line-height: 1.68;
+  color: var(--parchment);
+  white-space: pre-wrap;
+  user-select: text;
+}
+
+/* Candle / Occult Loading State */
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px 0;
+  color: var(--gold-light);
+  font-style: italic;
+  font-size: 14px;
+}
+
+.candle-flame {
+  width: 12px;
+  height: 18px;
+  background: radial-gradient(circle, #ffe699 10%, #ffb300 50%, #d84315 90%, transparent 100%);
+  border-radius: 50% 50% 20% 20%;
+  animation: flicker 0.8s infinite alternate ease-in-out;
+  filter: drop-shadow(0 0 8px #ffb300);
+}
+
+@keyframes flicker {
+  0% { transform: scale(1) rotate(-1deg); opacity: 0.9; }
+  50% { transform: scale(1.08, 0.95) rotate(2deg); opacity: 1; }
+  100% { transform: scale(0.96, 1.04) rotate(-1deg); opacity: 0.85; }
+}
+
+/* Settings Modal Backdrop & Dialog */
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(10, 11, 16, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-dialog {
+  background: radial-gradient(circle at 50% 0%, #252838 0%, #171924 100%);
+  border: 1.5px solid var(--gold-primary);
+  border-radius: 18px;
+  width: 90%;
+  max-width: 380px;
+  padding: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.85), 0 0 30px rgba(197,160,89,0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transform: scale(0.95);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-backdrop.active .modal-dialog {
+  transform: scale(1);
+}
+
+.modal-title {
+  font-family: var(--font-title);
+  font-size: 18px;
+  color: var(--gold-light);
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-desc {
+  font-size: 13px;
+  color: var(--parchment-dim);
+  line-height: 1.45;
+}
+
+.settings-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-align: left;
+}
+
+.settings-form-label {
+  font-size: 12px;
+  color: var(--gold-primary);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.modal-input {
+  width: 100%;
+  background: rgba(15, 16, 22, 0.9);
+  border: 1px solid var(--border-gold);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: monospace;
+  font-size: 13px;
+  color: var(--gold-light);
+  outline: none;
+}
+
+.modal-select {
+  cursor: pointer;
+  background: #13141a;
+  color: var(--gold-light);
+  font-family: var(--font-body);
+}
+
+.modal-input:focus {
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 10px rgba(197, 160, 89, 0.25);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--border-gold);
+  color: var(--parchment);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-primary {
+  background: var(--gold-primary);
+  border: none;
+  color: #0f1015;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-primary:hover {
+  background: var(--gold-light);
+  box-shadow: 0 0 12px var(--shadow-gold);
+}
+
+/* Engine Mode Switcher in SettingsModal */
+.settings-modal-dialog {
+  max-width: 410px;
+}
+
+.engine-mode-switcher {
+  display: flex;
+  background: rgba(15, 16, 22, 0.85);
+  border: 1px solid var(--border-gold);
+  border-radius: 10px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.engine-mode-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 10px;
+  background: transparent;
+  border: none;
+  border-radius: 7px;
+  color: var(--parchment-dim);
+  font-size: 13px;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.engine-mode-btn:hover {
+  color: var(--gold-light);
+  background: rgba(197, 160, 89, 0.08);
+}
+
+.engine-mode-btn.active {
+  background: linear-gradient(135deg, #322620 0%, #201a24 100%);
+  border: 1px solid var(--gold-primary);
+  color: var(--gold-light);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 0 8px rgba(197, 160, 89, 0.15);
+  font-weight: 600;
+}
+
+.mode-info-box {
+  background: rgba(15, 16, 22, 0.65);
+  border-left: 3px solid var(--gold-primary);
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--parchment);
+  line-height: 1.5;
+}
