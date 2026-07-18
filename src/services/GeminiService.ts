@@ -41,9 +41,14 @@ export class GeminiService {
     if (callbacks.onStart) callbacks.onStart();
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const MODELS_TO_TRY = engineMode === 'custom'
-      ? [SettingsModal.getCustomModel() || 'gemini-2.5-pro']
-      : ['gemini-2.0-flash', 'gemma-4-31b-it', 'gemini-flash-latest'];
+    let MODELS_TO_TRY: string[] = [];
+    if (engineMode === 'custom') {
+      const primaryModel = SettingsModal.getCustomModel() || 'gemini-3.1-pro';
+      // 为私人定制版提供后备模型链路，万一首选模型 429 限流，可无缝降级
+      MODELS_TO_TRY = Array.from(new Set([primaryModel, 'gemini-3.1-flash', 'gemini-3.1-flash-lite', 'gemini-2.5-flash']));
+    } else {
+      MODELS_TO_TRY = ['gemini-3.1-flash-lite', 'gemma-4-31b-it', 'gemini-flash-latest'];
+    }
 
     // Construct rich Dark Academia System & Prompt context
     const spreadInfo = cards.map((item, index) => {
@@ -116,11 +121,11 @@ ${spreadInfo}
     if (engineMode === 'custom') {
       const targetModel = MODELS_TO_TRY[0];
       if (msg.includes('429') || msg.includes('Quota exceeded') || msg.includes('RESOURCE_EXHAUSTED')) {
-        callbacks.onError(`私人契约模型限流或配额不足（429 Quota Exceeded，目标模型: ${targetModel}）: 当前 API Key 在该模型上的调用限额已满或权限未开通。请尝试点击右上角 ⚙️ 切换至其他占星模型（如 gemini-2.0-flash 或 gemini-2.5-flash）。`);
+        callbacks.onError(`私人契约模型及后备链路均限流（429 Quota Exceeded，首选模型: ${targetModel}）: 当前 API Key 调用额度已耗尽。请等待恢复，或更换可用额度的 Key。`);
       } else if (msg.includes('404') || msg.includes('not found')) {
-        callbacks.onError(`私人契约模型未找到（404 Not Found，目标模型: ${targetModel}）: 当前 API Key 无法访问该模型或模型 ID 有误，请前往右上角 ⚙️ 重新检查或选择其他模型。`);
+        callbacks.onError(`私人契约模型未找到（404 Not Found，首选模型: ${targetModel}）: 当前 API Key 无法访问该模型或模型 ID 有误，且后备模型链路亦未跑通，请重新检查 ⚙️ 设置。`);
       } else {
-        callbacks.onError(`私人专属契约通联中缀（API Request Failed，目标模型: ${targetModel}）: ${msg}`);
+        callbacks.onError(`私人专属契约通联中缀（API Request Failed，首选模型: ${targetModel} 及后备均失败）: ${msg}`);
       }
     } else {
       if (msg.includes('429') || msg.includes('Quota exceeded') || msg.includes('RESOURCE_EXHAUSTED')) {

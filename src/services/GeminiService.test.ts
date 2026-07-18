@@ -149,7 +149,7 @@ describe('GeminiService', () => {
     await GeminiService.interpretSpreadStream('Test', [], callbacks);
 
     expect(modelsAttempted.length).toBe(2);
-    expect(modelsAttempted[0]).toBe('gemini-2.0-flash');
+    expect(modelsAttempted[0]).toBe('gemini-3.1-flash-lite');
     expect(modelsAttempted[1]).toBe('gemma-4-31b-it');
     expect(onCompleteMock).toHaveBeenCalled();
   });
@@ -181,7 +181,7 @@ describe('GeminiService', () => {
     await GeminiService.interpretSpreadStream('Test', [], callbacks);
 
     expect(onErrorMock).toHaveBeenCalled();
-    expect(onErrorMock.mock.calls[0][0]).toContain('私人契约模型限流或配额不足');
+    expect(onErrorMock.mock.calls[0][0]).toContain('私人契约模型及后备链路均限流');
     expect(onErrorMock.mock.calls[0][0]).toContain('custom-test-model');
   });
 

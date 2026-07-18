@@ -37,7 +37,7 @@ export class SettingsModal {
         </div>
 
         <div class="mode-info-box" id="modeInfoBox">
-          👑 当前已激活内置免费暗黑契约（Gemini 2.0 Flash / 多模型智能容灾）。由开发者预置并提供基础加速，零配置直接召唤解读。
+          👑 当前已激活内置免费暗黑契约（Gemini 3.1 Flash Lite / 多模型智能容灾）。由开发者预置并提供基础加速，零配置直接召唤解读。
         </div>
 
         <div class="custom-key-container" id="customKeyContainer" style="display: none; flex-direction: column; gap: 12px;">
@@ -48,10 +48,12 @@ export class SettingsModal {
           <div class="settings-form-group">
             <label class="settings-form-label">🔮 驱动占星模型 (Model Selection)</label>
             <select class="modal-input modal-select" id="modelSelect">
+              <option value="gemini-3.1-pro">Gemini 3.1 Pro (最新旗舰模型，深度思考)</option>
+              <option value="gemini-3.1-flash">Gemini 3.1 Flash (最新高效极速模型)</option>
+              <option value="gemini-3.1-flash-lite">Gemini 3.1 Flash Lite (基础极速模型)</option>
               <option value="gemini-2.5-pro">Gemini 2.5 Pro (高阶旗舰思考与深层推理)</option>
               <option value="gemini-2.5-flash">Gemini 2.5 Flash (极速智能与高效平衡)</option>
               <option value="gemini-2.0-pro-exp-02-05">Gemini 2.0 Pro (2.0 经典旗舰模型)</option>
-              <option value="gemini-2.0-flash">Gemini 2.0 Flash (2.0 基础极速模型)</option>
               <option value="gemini-1.5-pro">Gemini 1.5 Pro (经典长文本深度推理)</option>
               <option value="gemini-1.5-flash">Gemini 1.5 Flash (经典轻量极速响应)</option>
               <option value="custom_input">✏️ 自定义模型名称 (如 gemma-4-31b-it...)</option>
@@ -138,7 +140,7 @@ export class SettingsModal {
     });
 
     if (mode === 'builtin') {
-      infoBox.innerHTML = `👑 <b>内置免费暗黑契约（Gemini 2.0 Flash / 多模型智能容灾）</b><br/><span style="opacity: 0.85; font-size: 0.9em;">由开发者预置并提供基础安全解密渲染，默认由 Gemini 2.0 Flash 引擎驱动，零配置即可开启占卜流式解析。适合日常快速启示。</span>`;
+      infoBox.innerHTML = `👑 <b>内置免费暗黑契约（Gemini 3.1 Flash Lite / 多模型智能容灾）</b><br/><span style="opacity: 0.85; font-size: 0.9em;">由开发者预置并提供基础安全解密渲染，默认由 Gemini 3.1 Flash Lite 引擎驱动，零配置即可开启占卜流式解析。适合日常快速启示。</span>`;
       customContainer.style.display = 'none';
     } else {
       infoBox.innerHTML = `🗝️ <b>私人定制专属契约（API Key 与模型选择）</b><br/><span style="opacity: 0.85; font-size: 0.9em;">为了独享无限额度及自由调用旗舰深度模型（如 2.5 Pro），请填入 Google Gemini API Key 并选择所需驱动模型。密文与设定将严格封存于本地存储，绝不外泄。</span>`;
