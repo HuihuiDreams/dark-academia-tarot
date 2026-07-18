@@ -8,7 +8,7 @@
   - 在前端微件标题栏新增了“隐藏至托盘 (`btnHide`)”按钮。
   - 在 Tauri 后端 (`lib.rs`) 中引入了 `tauri::tray`，构建了系统托盘应用菜单（支持“显示”与“退出”），并支持鼠标左键单击托盘图标快速唤醒并聚焦主应用窗口。
   - 同步更新了 `AGENTS.md`，明确系统托盘属于运行时约束与后端架构边界的一部分。
-- **测试驱动开发基础设施建立 (`Test-Driven Development Infrastructure`)**：为前后端引入单元测试以落地 `AGENTS.md` 中的 RED-GREEN-REFACTOR 原则。前端引入了 `vitest` 测试框架，编写了针对 `tarotDeck.ts`（大阿尔卡纳数据与洗牌逻辑）和 `GeminiService.ts`（多模型流式降级拦截逻辑）的测试；后端 `lib.rs` 引入了 `#[cfg(test)]` 模块以验证 XOR 密钥解密算法的正确性。
+- **测试驱动开发基础设施与核心覆盖率提升 (`Test-Driven Development Infrastructure & Coverage`)**：为前后端引入单元测试以落地 `AGENTS.md` 中的 RED-GREEN-REFACTOR 原则。前端基于 `vitest` 与 `@vitest/coverage-v8` 完善了核心 UI 与服务逻辑，将核心覆盖率提升至 87% 以上：深度测试了 `SettingsModal.ts`（双模切换与持久化逻辑）、`TarotWidget.ts`（牌阵状态机与流式渲染防抖），并补全了 `GeminiService.ts`（模型智能降级与 429/404 分类错误拦截）的各项异常处理分支；后端 `lib.rs` 引入了 `#[cfg(test)]` 模块以验证 XOR 密钥解密算法的正确性。
 - **专属高密版 Agent 工程规范与架构体系建立 (`Codex Project Guidance & Architecture Documentation`)**：参照项目定制规范，在根目录下创建了专属的 `AGENTS.md` 智能协同与开发说明文档。明确划分 Rust/Tauri 后端窗口管理与前端 UI/AI 服务边界，确立了“先思考后编码”、“主动加载专属技能”、“原子化重构与链路验证”等核心准则；并同步建设了完整的 `docs/` 架构体系，包含基础架构说明 `docs/structure.md` 与关键设计决策文档 (`ADR-001` 至 `ADR-003`)，保障团队开发与 Agent 协作时对无边框窗口隔离、流式 AI 过滤及卡牌单点真实源的高度共识。
 
 ### Changed
