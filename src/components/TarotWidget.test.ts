@@ -5,6 +5,12 @@ import { emit } from '@tauri-apps/api/event';
 import { GeminiService } from '../services/GeminiService';
 
 // Mock Tauri API
+Object.assign(navigator, {
+  clipboard: {
+    writeText: vi.fn().mockImplementation(() => Promise.resolve()),
+  },
+});
+
 vi.mock('@tauri-apps/api/window', () => {
   const mockWindow = {
     hide: vi.fn(),
@@ -37,6 +43,7 @@ describe('TarotWidget', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    (navigator.clipboard.writeText as any).mockClear();
     mockListeners = {};
     // Setup clean DOM
     document.body.innerHTML = '<div id="app"></div>';
@@ -167,6 +174,40 @@ describe('TarotWidget', () => {
     expect(streamOutput).not.toBeNull();
     expect(streamOutput.style.display).toBe('block');
     expect(streamOutput.innerHTML).toContain('Chunk 1 <strong>Chunk 2</strong>');
+  });
+
+  it('should copy interpretation to clipboard when copy button is clicked', async () => {
+    (GeminiService.interpretSpreadStream as any).mockImplementation(async (_q: string, _c: any, callbacks: any) => {
+      callbacks.onStart();
+      callbacks.onChunk('Test Interpretation');
+      callbacks.onComplete();
+    });
+
+    const inputQuestion = rootElement.querySelector('#questionInput') as HTMLInputElement;
+    const btnSubmit = rootElement.querySelector('#btnSubmit') as HTMLButtonElement;
+
+    const cardScenes = rootElement.querySelectorAll('.tarot-card-scene');
+    cardScenes.forEach((scene: any) => {
+      scene.dispatchEvent(new MouseEvent('mousedown', { clientX: 0, clientY: 0 }));
+      scene.dispatchEvent(new MouseEvent('mouseup', { clientX: 0, clientY: 0 }));
+    });
+
+    inputQuestion.value = 'Will I learn something today?';
+    btnSubmit.click();
+    
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    const btnCopy = rootElement.querySelector('.copy-btn') as HTMLButtonElement;
+    expect(btnCopy).not.toBeNull();
+    expect(btnCopy.style.display).not.toBe('none');
+    
+    btnCopy.click();
+    
+    expect(navigator.clipboard.writeText).toHaveBeenCalled();
+    const clipboardArg = (navigator.clipboard.writeText as any).mock.calls[0][0];
+    expect(clipboardArg).toContain('Will I learn something today?');
+    expect(clipboardArg).toContain('Test Interpretation');
+    expect(clipboardArg).not.toContain('undefined');
   });
 
   it('should handle interpretation error gracefully', async () => {

@@ -4,6 +4,7 @@
 
 ## [Unreleased]
 ### Added
+- **Markdown 复制导出 (`Clipboard Markdown Export`)**：在占星启示区域右侧新增了基于 Clipboard API 的悬浮复制按钮。点击后能快速将问题、所抽卡牌（及正逆位状态）以及占星解答格式化为 Markdown 文本并复制到系统剪贴板，方便沉浸式记录于 Notion 或 Obsidian 等知识库中。
 - **系统托盘与最小化支持 (`System Tray & Window Hide`)**：
   - 在前端微件标题栏新增了“隐藏至托盘 (`btnHide`)”按钮。
   - 在 Tauri 后端 (`lib.rs`) 中引入了 `tauri::tray`，构建了系统托盘应用菜单（支持“显示”与“退出”），并支持鼠标左键单击托盘图标快速唤醒并聚焦主应用窗口。

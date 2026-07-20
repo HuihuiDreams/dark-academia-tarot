@@ -286,7 +286,12 @@ export class TarotWidget {
       <div class="floating-interpretation-scroll">
         <div class="interpretation-header">
           <span>📜 暗黑星夜启示 (INTERPRETATIO)</span>
-          <span>⏳ 灵感共鸣...</span>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span id="headerStatusText">⏳ 灵感共鸣...</span>
+            <button class="copy-btn icon-btn" id="btnCopyReading" aria-label="Copy Reading" style="display: none; padding: 4px;" title="复制到剪贴板 (Copy to Clipboard)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </button>
+          </div>
         </div>
         <div class="interpretation-body">
           <div class="loading-indicator" id="loadingBox" role="status" aria-busy="true">
@@ -300,7 +305,7 @@ export class TarotWidget {
 
     const loadingBox = container.querySelector('#loadingBox') as HTMLElement;
     const textBox = container.querySelector('#streamTextOutput') as HTMLElement;
-    const headerStatus = container.querySelector('.interpretation-header span:last-child') as HTMLElement;
+    const headerStatus = container.querySelector('#headerStatusText') as HTMLElement;
 
     let fullText = '';
 
@@ -334,6 +339,12 @@ export class TarotWidget {
         if (btnSubmit) btnSubmit.disabled = false;
         if (inputQuestion) inputQuestion.disabled = false;
         headerStatus.textContent = '🌟 启示已成 (VERITAS)';
+        
+        const btnCopy = container.querySelector('#btnCopyReading') as HTMLButtonElement;
+        if (btnCopy) {
+          btnCopy.style.display = 'flex';
+          btnCopy.addEventListener('click', () => this.copyReadingToClipboard(question, fullText, btnCopy));
+        }
       },
       onError: (errMsg: string) => {
         this.isGenerating = false;
@@ -346,5 +357,35 @@ export class TarotWidget {
         headerStatus.textContent = '⚠️ 契约中断';
       }
     });
+  }
+
+  private async copyReadingToClipboard(question: string, interpretation: string, btnElem: HTMLButtonElement) {
+    try {
+      const now = new Date();
+      const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      
+      let markdown = `# Tarot Reading: ${dateStr}\n\n`;
+      if (question) {
+        markdown += `**Question**: ${question}\n\n`;
+      }
+      
+      markdown += `## Cards Drawn\n`;
+      this.cards.forEach((item) => {
+        const state = item.isReversed ? 'Reversed' : 'Upright';
+        markdown += `- **${item.card.name}** (${state})\n`;
+      });
+      
+      markdown += `\n## Interpretation\n${interpretation}\n`;
+
+      await navigator.clipboard.writeText(markdown);
+      
+      const originalHtml = btnElem.innerHTML;
+      btnElem.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+      setTimeout(() => {
+        if (btnElem) btnElem.innerHTML = originalHtml;
+      }, 2000);
+    } catch (e) {
+      console.warn('Clipboard write failed:', e);
+    }
   }
 }
