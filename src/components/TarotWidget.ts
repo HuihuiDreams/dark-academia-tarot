@@ -2,6 +2,7 @@ import { getRandomSpread, type DrawnCard } from '../data/tarotDeck';
 import { GeminiService } from '../services/GeminiService';
 import { SettingsModal } from './SettingsModal';
 import { getCurrentWindow } from '@tauri-apps/api/window';
+import { listen, emit } from '@tauri-apps/api/event';
 
 export class TarotWidget {
   private root: HTMLElement;
@@ -131,6 +132,7 @@ export class TarotWidget {
     btnHide?.addEventListener('click', async () => {
       try {
         await getCurrentWindow().hide();
+        await emit('window-hidden');
       } catch (e) {
         console.warn('Window hide API error:', e);
       }
@@ -212,6 +214,15 @@ export class TarotWidget {
         triggerSubmit();
       }
     });
+
+    // Tray Menu IPC Event Listeners
+    listen('open-settings', () => {
+      this.settingsModal.show();
+    }).catch(console.error);
+
+    listen('draw-new-spread', () => {
+      this.drawNewSpread();
+    }).catch(console.error);
   }
 
   private toggleCardFlip(index: number, sceneElem: HTMLElement) {

@@ -16,6 +16,7 @@ describe('SettingsModal', () => {
 
   it('initializes and renders correctly in the DOM', () => {
     const modal = new SettingsModal();
+    expect(modal).toBeDefined();
     const container = document.querySelector('.modal-backdrop');
     expect(container).not.toBeNull();
     
@@ -44,6 +45,7 @@ describe('SettingsModal', () => {
 
   it('switches modes when clicking mode buttons', () => {
     const modal = new SettingsModal();
+    expect(modal).toBeDefined();
     const container = document.querySelector('.modal-backdrop') as HTMLElement;
     const modeBtns = container.querySelectorAll('.engine-mode-btn');
     const customContainer = container.querySelector('#customKeyContainer') as HTMLElement;
@@ -68,6 +70,7 @@ describe('SettingsModal', () => {
 
   it('saves settings to localStorage and calls callback on save', () => {
     const modal = new SettingsModal();
+    expect(modal).toBeDefined();
     const container = document.querySelector('.modal-backdrop') as HTMLElement;
     const saveBtn = container.querySelector('#btnSaveModal') as HTMLButtonElement;
     const apiKeyInput = container.querySelector('#apiKeyInput') as HTMLInputElement;
@@ -93,6 +96,7 @@ describe('SettingsModal', () => {
   it('removes api key from localStorage if saved empty', () => {
     localStorage.setItem('dark_academia_tarot_api_key', 'test-key');
     const modal = new SettingsModal();
+    expect(modal).toBeDefined();
     const container = document.querySelector('.modal-backdrop') as HTMLElement;
     const saveBtn = container.querySelector('#btnSaveModal') as HTMLButtonElement;
     const apiKeyInput = container.querySelector('#apiKeyInput') as HTMLInputElement;
@@ -105,6 +109,7 @@ describe('SettingsModal', () => {
 
   it('toggles visibility correctly with show and hide methods', () => {
     const modal = new SettingsModal();
+    expect(modal).toBeDefined();
     const container = document.querySelector('.modal-backdrop') as HTMLElement;
     
     expect(container.classList.contains('active')).toBe(false);
@@ -118,6 +123,7 @@ describe('SettingsModal', () => {
   
   it('hides modal when clicking on backdrop', () => {
     const modal = new SettingsModal();
+    expect(modal).toBeDefined();
     const container = document.querySelector('.modal-backdrop') as HTMLElement;
     
     modal.show();
@@ -132,6 +138,7 @@ describe('SettingsModal', () => {
 
   it('handles custom model input display logic', () => {
     const modal = new SettingsModal();
+    expect(modal).toBeDefined();
     const container = document.querySelector('.modal-backdrop') as HTMLElement;
     const modelSelect = container.querySelector('#modelSelect') as HTMLSelectElement;
     const customModelInput = container.querySelector('#customModelInput') as HTMLInputElement;

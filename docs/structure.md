@@ -121,6 +121,12 @@ stateDiagram-v2
 3. **多模型候选降级**：依次尝试 `['gemini-2.0-flash', 'gemma-4-31b-it', 'gemini-flash-latest']`。
 4. **思考链纯净过滤**：在 `generateContentStream` 处理 Chunk 块时，判断 `part.thought === true` 则立即跳过，仅推送真正属于占星指导正文的文本到 `onChunk` 渲染，保护古典文风连续性。
 
+### 3.4 系统托盘交互与事件分发 (System Tray IPC)
+为了提供更便捷的全局访问，微件在后台运行时支持丰富的系统托盘操作：
+- **后端事件监听**：`src-tauri/src/lib.rs` 中的系统托盘不仅支持 `show`（显示）和 `hide`（隐藏）原生窗口状态切换。
+- **前端事件分发**：当点击 `settings` (设置) 或 `shuffle` (重新洗牌) 时，Rust 后端会先恢复主窗口显示，随后通过 `app.emit("open-settings")` 或 `app.emit("draw-new-spread")` 向前端广播事件。
+- **前端响应**：`TarotWidget.ts` 在初始化时使用 `@tauri-apps/api/event` 的 `listen` 接口注册这些事件的回调，实现从托盘直达前端内部方法（如 `settingsModal.show()` 和 `drawNewSpread()`）的无缝调用。
+
 ---
 
 ## 4. 关键脚本与维护命令
