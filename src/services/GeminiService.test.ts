@@ -116,6 +116,35 @@ describe('GeminiService', () => {
     expect(onCompleteMock).toHaveBeenCalled();
   });
 
+  it('should generate a prompt that forbids modern tech/programmer jargon', async () => {
+    (SettingsModal.getApiKey as any).mockReturnValue('valid-key');
+    (SettingsModal.getEngineMode as any).mockReturnValue('builtin');
+
+    const mockGenerateContentStream = vi.fn().mockResolvedValue({ stream: [] });
+    (GoogleGenerativeAI as any).mockImplementation(function() {
+      return {
+        getGenerativeModel: () => ({
+          generateContentStream: mockGenerateContentStream
+        })
+      };
+    });
+
+    const callbacks = {
+      onChunk: vi.fn(),
+      onComplete: vi.fn(),
+      onError: vi.fn()
+    };
+
+    await GeminiService.interpretSpreadStream('高市早苗会在近期下台吗', [], callbacks);
+
+    expect(mockGenerateContentStream).toHaveBeenCalled();
+    const promptArg = mockGenerateContentStream.mock.calls[0][0];
+    
+    // Verify the system prompt constraints
+    expect(promptArg).toContain('绝对不要使用任何现代科技、计算机、代码或程序员相关的比喻与术语');
+    expect(promptArg).not.toContain('如果来访者输入的问题涉及程序员/代码');
+  });
+
   it('should fallback to next model if first model fails', async () => {
     (SettingsModal.getApiKey as any).mockReturnValue('valid-key');
     (SettingsModal.getEngineMode as any).mockReturnValue('builtin'); // Builtin uses 3 models
