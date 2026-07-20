@@ -44,8 +44,9 @@
     <circle r="75" fill="none" stroke="#6e262c" stroke-width="1.2" opacity="0.8" />
     
     <!-- Geometric Occult Structure -->
-    <rect x="-56" y="-56" width="112" height="112" fill="none" stroke="url(#gold_4_emperor)" stroke-width="1.5" transform="rotate(45)" opacity="0.75" />
-         <rect x="-56" y="-56" width="112" height="112" fill="none" stroke="url(#gold_4_emperor)" stroke-width="1.5" opacity="0.5" />
+    <rect x="-45" y="-45" width="90" height="90" fill="none" stroke="url(#gold_4_emperor)" stroke-width="2"/>
+              <polygon points="0,-70 70,0 0,70 -70,0" fill="none" stroke="#6e262c" stroke-width="1.5"/>
+              <rect x="-30" y="-30" width="60" height="60" fill="none" stroke="url(#gold_4_emperor)" stroke-width="1"/>
 
     <!-- Central Alchemical & Archetypal Emblem -->
     <circle r="42" fill="#1c1e28" stroke="url(#gold_4_emperor)" stroke-width="2" filter="url(#glow_4_emperor)" />

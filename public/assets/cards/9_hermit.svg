@@ -44,8 +44,9 @@
     <circle r="75" fill="none" stroke="#6e262c" stroke-width="1.2" opacity="0.8" />
     
     <!-- Geometric Occult Structure -->
-    <polygon points="0,-80 69,40 -69,40" fill="none" stroke="url(#gold_9_hermit)" stroke-width="1.5" opacity="0.75" />
-         <polygon points="0,80 69,-40 -69,-40" fill="none" stroke="url(#gold_9_hermit)" stroke-width="1.5" opacity="0.75" />
+    <polygon points="0,-70 40,-30 30,60 -30,60 -40,-30" fill="none" stroke="url(#gold_9_hermit)" stroke-width="2"/>
+              <polygon points="0,-10 15,15 -15,15" fill="none" stroke="url(#gold_9_hermit)" stroke-width="1.5"/>
+              <polygon points="0,25 15,0 -15,0" fill="none" stroke="url(#gold_9_hermit)" stroke-width="1.5"/>
 
     <!-- Central Alchemical & Archetypal Emblem -->
     <circle r="42" fill="#1c1e28" stroke="url(#gold_9_hermit)" stroke-width="2" filter="url(#glow_9_hermit)" />

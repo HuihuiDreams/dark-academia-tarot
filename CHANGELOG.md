@@ -15,6 +15,7 @@
 - **Tray Menu Enhancements**: Added "Hide" (隐藏), "Settings" (设置), and "Draw New Spread" (重新洗牌) actions directly to the system tray for seamless access to widget controls without interacting with the floating UI.
 
 ### Changed
+- **牌面几何艺术完全重构 (`Unique Arcana Geometry`)**：重构了 `scripts/generate_assets.mjs` 中的 SVG 牌面生成逻辑。为 22 张大阿卡纳（Major Arcana）卡牌分别设计并赋予了独一无二的中央炼金/神圣几何图腾（如愚人的虚线未知环、魔术师的无限符号、女祭司的双柱、高塔的闪电裂纹等），彻底解决了原版由于仅依靠奇偶数区分而导致的大量视觉重复问题，极大增强了不同卡牌间的辨识度与暗黑神话艺术表现力。
 - **系统提示词纯净度优化 (`System Prompt Tuning`)**：修改了 `GeminiService.ts` 中的系统提示词，移除了“涉及程序员/代码等内容时使用严谨逻辑与比喻”的规则。改为强制要求“保持语境的纯粹性，绝对不要使用任何现代科技、计算机或代码相关的比喻（除非用户主动提及）”。此举解决了模型在解答非技术类（如政治、生活）问题时过度联想并生硬套用编程术语（如“即将溢出的堆栈”、“代码架构”）从而破坏暗黑学院沉浸感的缺陷。同步添加了针对提示词生成的测试用例。
 - **全面引入 Gemini 3.1 系列模型与重构私人定制容灾链路 (`Gemini 3.1 Integration & Custom Fallback`)**：
   - **内置契约主引擎升级**：将 `GeminiService.ts` 默认回退链首选模型及 `SettingsModal` UI 描述由 `Gemini 2.0 Flash` 全面更新至延迟极低的 `Gemini 3.1 Flash Lite`。同步重构了 `GeminiService.test.ts` 以适配新的主模型断言。

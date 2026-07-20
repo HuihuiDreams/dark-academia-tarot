@@ -44,8 +44,9 @@
     <circle r="75" fill="none" stroke="#6e262c" stroke-width="1.2" opacity="0.8" />
     
     <!-- Geometric Occult Structure -->
-    <rect x="-56" y="-56" width="112" height="112" fill="none" stroke="url(#gold_2_high_priestess)" stroke-width="1.5" transform="rotate(45)" opacity="0.75" />
-         <rect x="-56" y="-56" width="112" height="112" fill="none" stroke="url(#gold_2_high_priestess)" stroke-width="1.5" opacity="0.5" />
+    <rect x="-60" y="-70" width="20" height="140" fill="none" stroke="url(#gold_2_high_priestess)" stroke-width="2"/>
+              <rect x="40" y="-70" width="20" height="140" fill="none" stroke="#6e262c" stroke-width="2"/>
+              <path d="M0,-20 A20,20 0 1,0 0,20 A15,15 0 1,1 0,-20 Z" fill="none" stroke="url(#gold_2_high_priestess)" stroke-width="1.5"/>
 
     <!-- Central Alchemical & Archetypal Emblem -->
     <circle r="42" fill="#1c1e28" stroke="url(#gold_2_high_priestess)" stroke-width="2" filter="url(#glow_2_high_priestess)" />

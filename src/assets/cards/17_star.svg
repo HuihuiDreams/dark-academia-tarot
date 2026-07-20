@@ -44,8 +44,8 @@
     <circle r="75" fill="none" stroke="#6e262c" stroke-width="1.2" opacity="0.8" />
     
     <!-- Geometric Occult Structure -->
-    <polygon points="0,-80 69,40 -69,40" fill="none" stroke="url(#gold_17_star)" stroke-width="1.5" opacity="0.75" />
-         <polygon points="0,80 69,-40 -69,-40" fill="none" stroke="url(#gold_17_star)" stroke-width="1.5" opacity="0.75" />
+    <polygon points="0,-60 15,-15 60,0 15,15 0,60 -15,15 -60,0 -15,-15" fill="none" stroke="url(#gold_17_star)" stroke-width="2"/>
+              <polygon points="0,-30 7,-7 30,0 7,7 0,30 -7,7 -30,0 -7,-7" fill="none" stroke="#6e262c" stroke-width="1.5"/>
 
     <!-- Central Alchemical & Archetypal Emblem -->
     <circle r="42" fill="#1c1e28" stroke="url(#gold_17_star)" stroke-width="2" filter="url(#glow_17_star)" />

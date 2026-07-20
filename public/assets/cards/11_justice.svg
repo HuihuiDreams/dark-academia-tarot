@@ -44,8 +44,11 @@
     <circle r="75" fill="none" stroke="#6e262c" stroke-width="1.2" opacity="0.8" />
     
     <!-- Geometric Occult Structure -->
-    <polygon points="0,-80 69,40 -69,40" fill="none" stroke="url(#gold_11_justice)" stroke-width="1.5" opacity="0.75" />
-         <polygon points="0,80 69,-40 -69,-40" fill="none" stroke="url(#gold_11_justice)" stroke-width="1.5" opacity="0.75" />
+    <line x1="-50" y1="-20" x2="50" y2="-20" stroke="url(#gold_11_justice)" stroke-width="2"/>
+              <polygon points="-50,-20 -70,20 -30,20" fill="none" stroke="url(#gold_11_justice)" stroke-width="1.5"/>
+              <polygon points="50,-20 30,20 70,20" fill="none" stroke="url(#gold_11_justice)" stroke-width="1.5"/>
+              <line x1="0" y1="-40" x2="0" y2="40" stroke="#6e262c" stroke-width="2"/>
+              <polygon points="0,40 10,60 -10,60" fill="none" stroke="url(#gold_11_justice)" stroke-width="1"/>
 
     <!-- Central Alchemical & Archetypal Emblem -->
     <circle r="42" fill="#1c1e28" stroke="url(#gold_11_justice)" stroke-width="2" filter="url(#glow_11_justice)" />

@@ -44,8 +44,11 @@
     <circle r="75" fill="none" stroke="#6e262c" stroke-width="1.2" opacity="0.8" />
     
     <!-- Geometric Occult Structure -->
-    <polygon points="0,-80 69,40 -69,40" fill="none" stroke="url(#gold_1_magician)" stroke-width="1.5" opacity="0.75" />
-         <polygon points="0,80 69,-40 -69,-40" fill="none" stroke="url(#gold_1_magician)" stroke-width="1.5" opacity="0.75" />
+    <path d="M-40,0 C-40,-30 0,-30 0,0 C0,30 40,30 40,0 C40,-30 0,-30 0,0 C0,30 -40,30 -40,0 Z" fill="none" stroke="url(#gold_1_magician)" stroke-width="2"/>
+              <circle cx="0" cy="-60" r="10" fill="none" stroke="#6e262c"/>
+              <circle cx="0" cy="60" r="10" fill="none" stroke="#6e262c"/>
+              <circle cx="-60" cy="0" r="10" fill="none" stroke="#6e262c"/>
+              <circle cx="60" cy="0" r="10" fill="none" stroke="#6e262c"/>
 
     <!-- Central Alchemical & Archetypal Emblem -->
     <circle r="42" fill="#1c1e28" stroke="url(#gold_1_magician)" stroke-width="2" filter="url(#glow_1_magician)" />

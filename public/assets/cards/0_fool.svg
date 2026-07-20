@@ -44,8 +44,9 @@
     <circle r="75" fill="none" stroke="#6e262c" stroke-width="1.2" opacity="0.8" />
     
     <!-- Geometric Occult Structure -->
-    <rect x="-56" y="-56" width="112" height="112" fill="none" stroke="url(#gold_0_fool)" stroke-width="1.5" transform="rotate(45)" opacity="0.75" />
-         <rect x="-56" y="-56" width="112" height="112" fill="none" stroke="url(#gold_0_fool)" stroke-width="1.5" opacity="0.5" />
+    <circle r="80" fill="none" stroke="url(#gold_0_fool)" stroke-dasharray="2,6" stroke-width="2"/>
+              <circle r="50" fill="none" stroke="url(#gold_0_fool)" stroke-dasharray="1,4" stroke-width="2"/>
+              <circle cx="-30" cy="-30" r="15" fill="none" stroke="#6e262c" stroke-width="1.5"/>
 
     <!-- Central Alchemical & Archetypal Emblem -->
     <circle r="42" fill="#1c1e28" stroke="url(#gold_0_fool)" stroke-width="2" filter="url(#glow_0_fool)" />

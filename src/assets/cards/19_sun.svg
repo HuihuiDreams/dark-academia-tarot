@@ -44,8 +44,10 @@
     <circle r="75" fill="none" stroke="#6e262c" stroke-width="1.2" opacity="0.8" />
     
     <!-- Geometric Occult Structure -->
-    <polygon points="0,-80 69,40 -69,40" fill="none" stroke="url(#gold_19_sun)" stroke-width="1.5" opacity="0.75" />
-         <polygon points="0,80 69,-40 -69,-40" fill="none" stroke="url(#gold_19_sun)" stroke-width="1.5" opacity="0.75" />
+    <circle r="40" fill="none" stroke="url(#gold_19_sun)" stroke-width="2"/>
+              <path d="M0,-40 L0,-70 M40,0 L70,0 M0,40 L0,70 M-40,0 L-70,0" stroke="url(#gold_19_sun)" stroke-width="2"/>
+              <path d="M28,-28 L50,-50 M28,28 L50,50 M-28,28 L-50,50 M-28,-28 L-50,-50" stroke="#6e262c" stroke-width="2"/>
+              <circle cx="0" cy="0" r="30" fill="none" stroke="url(#gold_19_sun)" stroke-dasharray="2,4"/>
 
     <!-- Central Alchemical & Archetypal Emblem -->
     <circle r="42" fill="#1c1e28" stroke="url(#gold_19_sun)" stroke-width="2" filter="url(#glow_19_sun)" />

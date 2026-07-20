@@ -44,8 +44,10 @@
     <circle r="75" fill="none" stroke="#6e262c" stroke-width="1.2" opacity="0.8" />
     
     <!-- Geometric Occult Structure -->
-    <rect x="-56" y="-56" width="112" height="112" fill="none" stroke="url(#gold_16_tower)" stroke-width="1.5" transform="rotate(45)" opacity="0.75" />
-         <rect x="-56" y="-56" width="112" height="112" fill="none" stroke="url(#gold_16_tower)" stroke-width="1.5" opacity="0.5" />
+    <rect x="-30" y="-50" width="60" height="100" fill="none" stroke="url(#gold_16_tower)" stroke-width="2"/>
+              <path d="M10,-80 L-20,-10 L0,10 L-10,70" fill="none" stroke="#6e262c" stroke-width="2"/>
+              <circle cx="-40" cy="-40" r="5" fill="url(#gold_16_tower)"/>
+              <circle cx="40" cy="20" r="5" fill="url(#gold_16_tower)"/>
 
     <!-- Central Alchemical & Archetypal Emblem -->
     <circle r="42" fill="#1c1e28" stroke="url(#gold_16_tower)" stroke-width="2" filter="url(#glow_16_tower)" />

@@ -126,11 +126,119 @@ function generateCardBackSvg() {
 </svg>`;
 }
 
+function getCardGeometry(index, goldUrl) {
+  const cRed = '#6e262c';
+  switch (index) {
+    case 0: // Fool
+      return `<circle r="80" fill="none" stroke="${goldUrl}" stroke-dasharray="2,6" stroke-width="2"/>
+              <circle r="50" fill="none" stroke="${goldUrl}" stroke-dasharray="1,4" stroke-width="2"/>
+              <circle cx="-30" cy="-30" r="15" fill="none" stroke="${cRed}" stroke-width="1.5"/>`;
+    case 1: // Magician
+      return `<path d="M-40,0 C-40,-30 0,-30 0,0 C0,30 40,30 40,0 C40,-30 0,-30 0,0 C0,30 -40,30 -40,0 Z" fill="none" stroke="${goldUrl}" stroke-width="2"/>
+              <circle cx="0" cy="-60" r="10" fill="none" stroke="${cRed}"/>
+              <circle cx="0" cy="60" r="10" fill="none" stroke="${cRed}"/>
+              <circle cx="-60" cy="0" r="10" fill="none" stroke="${cRed}"/>
+              <circle cx="60" cy="0" r="10" fill="none" stroke="${cRed}"/>`;
+    case 2: // High Priestess
+      return `<rect x="-60" y="-70" width="20" height="140" fill="none" stroke="${goldUrl}" stroke-width="2"/>
+              <rect x="40" y="-70" width="20" height="140" fill="none" stroke="${cRed}" stroke-width="2"/>
+              <path d="M0,-20 A20,20 0 1,0 0,20 A15,15 0 1,1 0,-20 Z" fill="none" stroke="${goldUrl}" stroke-width="1.5"/>`;
+    case 3: // Empress
+      return `<circle r="50" fill="none" stroke="${goldUrl}" stroke-width="2"/>
+              <path d="M0,50 L0,80 M-15,65 L15,65" stroke="${goldUrl}" stroke-width="2"/>
+              <circle r="65" fill="none" stroke="${cRed}" stroke-dasharray="4,8" stroke-width="1.5"/>`;
+    case 4: // Emperor
+      return `<rect x="-45" y="-45" width="90" height="90" fill="none" stroke="${goldUrl}" stroke-width="2"/>
+              <polygon points="0,-70 70,0 0,70 -70,0" fill="none" stroke="${cRed}" stroke-width="1.5"/>
+              <rect x="-30" y="-30" width="60" height="60" fill="none" stroke="${goldUrl}" stroke-width="1"/>`;
+    case 5: // Hierophant
+      return `<circle cx="0" cy="-30" r="40" fill="none" stroke="${goldUrl}" stroke-width="1.5"/>
+              <circle cx="-25" cy="15" r="40" fill="none" stroke="${goldUrl}" stroke-width="1.5"/>
+              <circle cx="25" cy="15" r="40" fill="none" stroke="${goldUrl}" stroke-width="1.5"/>`;
+    case 6: // Lovers
+      return `<polygon points="0,-60 52,30 -52,30" fill="none" stroke="${goldUrl}" stroke-width="2"/>
+              <polygon points="0,60 52,-30 -52,-30" fill="none" stroke="${cRed}" stroke-width="2"/>
+              <circle cx="-20" cy="0" r="30" fill="none" stroke="${goldUrl}" stroke-width="1" opacity="0.6"/>
+              <circle cx="20" cy="0" r="30" fill="none" stroke="${goldUrl}" stroke-width="1" opacity="0.6"/>`;
+    case 7: // Chariot
+      return `<rect x="-50" y="-30" width="100" height="60" fill="none" stroke="${goldUrl}" stroke-width="2"/>
+              <circle cx="-30" cy="30" r="20" fill="none" stroke="${cRed}" stroke-width="1.5"/>
+              <circle cx="30" cy="30" r="20" fill="none" stroke="${cRed}" stroke-width="1.5"/>
+              <polygon points="0,-60 20,-30 -20,-30" fill="none" stroke="${goldUrl}" stroke-width="1.5"/>`;
+    case 8: // Strength
+      return `<path d="M-30,-50 C-30,-70 0,-70 0,-50 C0,-30 30,-30 30,-50 C30,-70 0,-70 0,-50 C0,-30 -30,-30 -30,-50 Z" fill="none" stroke="${goldUrl}" stroke-width="1.5"/>
+              <circle r="50" fill="none" stroke="${goldUrl}" stroke-width="2"/>
+              <path d="M-60,0 L60,0 M0,-60 L0,60 M-42,-42 L42,42 M-42,42 L42,-42" stroke="${cRed}" stroke-width="1.5"/>`;
+    case 9: // Hermit
+      return `<polygon points="0,-70 40,-30 30,60 -30,60 -40,-30" fill="none" stroke="${goldUrl}" stroke-width="2"/>
+              <polygon points="0,-10 15,15 -15,15" fill="none" stroke="${goldUrl}" stroke-width="1.5"/>
+              <polygon points="0,25 15,0 -15,0" fill="none" stroke="${goldUrl}" stroke-width="1.5"/>`;
+    case 10: // Wheel of Fortune
+      return `<circle r="60" fill="none" stroke="${goldUrl}" stroke-width="3"/>
+              <circle r="45" fill="none" stroke="${goldUrl}" stroke-width="1"/>
+              <path d="M-60,0 L60,0 M0,-60 L0,60 M-42,-42 L42,42 M-42,42 L42,-42" stroke="${cRed}" stroke-width="2"/>
+              <circle r="15" fill="none" stroke="${goldUrl}" stroke-width="2"/>`;
+    case 11: // Justice
+      return `<line x1="-50" y1="-20" x2="50" y2="-20" stroke="${goldUrl}" stroke-width="2"/>
+              <polygon points="-50,-20 -70,20 -30,20" fill="none" stroke="${goldUrl}" stroke-width="1.5"/>
+              <polygon points="50,-20 30,20 70,20" fill="none" stroke="${goldUrl}" stroke-width="1.5"/>
+              <line x1="0" y1="-40" x2="0" y2="40" stroke="${cRed}" stroke-width="2"/>
+              <polygon points="0,40 10,60 -10,60" fill="none" stroke="${goldUrl}" stroke-width="1"/>`;
+    case 12: // Hanged Man
+      return `<line x1="-40" y1="-50" x2="40" y2="-50" stroke="${goldUrl}" stroke-width="3"/>
+              <line x1="0" y1="-50" x2="0" y2="60" stroke="${goldUrl}" stroke-width="3"/>
+              <polygon points="0,20 30,-20 -30,-20" fill="none" stroke="${cRed}" stroke-width="2"/>`;
+    case 13: // Death
+      return `<path d="M30,-50 C30,-50 -20,-60 -40,-20 C-60,20 -10,60 50,60 C40,40 20,40 -20,20 C-30,0 -10,-40 30,-50 Z" fill="none" stroke="${goldUrl}" stroke-width="2"/>
+              <circle cx="-20" cy="-10" r="10" fill="none" stroke="${cRed}" stroke-width="1.5"/>`;
+    case 14: // Temperance
+      return `<rect x="-40" y="-40" width="80" height="80" fill="none" stroke="${goldUrl}" stroke-width="2"/>
+              <polygon points="0,-40 40,40 -40,40" fill="none" stroke="${cRed}" stroke-width="2"/>
+              <circle r="40" fill="none" stroke="${goldUrl}" stroke-width="1" opacity="0.5"/>`;
+    case 15: // Devil
+      return `<circle r="60" fill="none" stroke="${goldUrl}" stroke-width="3"/>
+              <polygon points="0,60 35,-48 -57,18 57,18 -35,-48" fill="none" stroke="${cRed}" stroke-width="2"/>`;
+    case 16: // Tower
+      return `<rect x="-30" y="-50" width="60" height="100" fill="none" stroke="${goldUrl}" stroke-width="2"/>
+              <path d="M10,-80 L-20,-10 L0,10 L-10,70" fill="none" stroke="${cRed}" stroke-width="2"/>
+              <circle cx="-40" cy="-40" r="5" fill="${goldUrl}"/>
+              <circle cx="40" cy="20" r="5" fill="${goldUrl}"/>`;
+    case 17: // Star
+      return `<polygon points="0,-60 15,-15 60,0 15,15 0,60 -15,15 -60,0 -15,-15" fill="none" stroke="${goldUrl}" stroke-width="2"/>
+              <polygon points="0,-30 7,-7 30,0 7,7 0,30 -7,7 -30,0 -7,-7" fill="none" stroke="${cRed}" stroke-width="1.5"/>`;
+    case 18: // Moon
+      return `<path d="M20,-50 A50,50 0 1,0 20,50 A40,40 0 1,1 20,-50 Z" fill="none" stroke="${goldUrl}" stroke-width="2"/>
+              <rect x="-50" y="10" width="15" height="40" fill="none" stroke="${cRed}" stroke-width="1.5"/>
+              <rect x="35" y="10" width="15" height="40" fill="none" stroke="${cRed}" stroke-width="1.5"/>
+              <path d="M-60,70 Q-30,50 0,70 T60,70" fill="none" stroke="${goldUrl}" stroke-width="1.5"/>`;
+    case 19: // Sun
+      return `<circle r="40" fill="none" stroke="${goldUrl}" stroke-width="2"/>
+              <path d="M0,-40 L0,-70 M40,0 L70,0 M0,40 L0,70 M-40,0 L-70,0" stroke="${goldUrl}" stroke-width="2"/>
+              <path d="M28,-28 L50,-50 M28,28 L50,50 M-28,28 L-50,50 M-28,-28 L-50,-50" stroke="${cRed}" stroke-width="2"/>
+              <circle cx="0" cy="0" r="30" fill="none" stroke="${goldUrl}" stroke-dasharray="2,4"/>`;
+    case 20: // Judgement
+      return `<rect x="-50" y="-30" width="100" height="60" fill="none" stroke="${goldUrl}" stroke-width="2"/>
+              <line x1="-50" y1="0" x2="50" y2="0" stroke="${goldUrl}" stroke-width="2"/>
+              <line x1="0" y1="-30" x2="0" y2="30" stroke="${goldUrl}" stroke-width="2"/>
+              <path d="M-30,-60 Q0,-40 30,-60" fill="none" stroke="${cRed}" stroke-width="2"/>`;
+    case 21: // World
+      return `<ellipse cx="0" cy="0" rx="45" ry="65" fill="none" stroke="${goldUrl}" stroke-width="2" stroke-dasharray="8,4"/>
+              <circle cx="-50" cy="-70" r="12" fill="none" stroke="${cRed}" stroke-width="1.5"/>
+              <circle cx="50" cy="-70" r="12" fill="none" stroke="${cRed}" stroke-width="1.5"/>
+              <circle cx="-50" cy="70" r="12" fill="none" stroke="${cRed}" stroke-width="1.5"/>
+              <circle cx="50" cy="70" r="12" fill="none" stroke="${cRed}" stroke-width="1.5"/>`;
+    default:
+      return `<polygon points="0,-60 52,30 -52,30" fill="none" stroke="${goldUrl}" stroke-width="1.5" />
+              <polygon points="0,60 52,-30 -52,-30" fill="none" stroke="${cRed}" stroke-width="1.5" />`;
+  }
+}
+
 // Generate Major Arcana Card SVG
 function generateArcanaSvg(card) {
   // Generate distinct geometry / accents based on card symbol & roman
   const hash = card.id.split('_')[0];
-  const isOdd = parseInt(hash || '0', 10) % 2 !== 0;
+  const index = parseInt(hash || '0', 10);
+  const isOdd = index % 2 !== 0;
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 600" width="360" height="600">
   <defs>
@@ -178,12 +286,7 @@ function generateArcanaSvg(card) {
     <circle r="75" fill="none" stroke="#6e262c" stroke-width="1.2" opacity="0.8" />
     
     <!-- Geometric Occult Structure -->
-    ${isOdd 
-      ? `<polygon points="0,-80 69,40 -69,40" fill="none" stroke="url(#gold_${card.id})" stroke-width="1.5" opacity="0.75" />
-         <polygon points="0,80 69,-40 -69,-40" fill="none" stroke="url(#gold_${card.id})" stroke-width="1.5" opacity="0.75" />`
-      : `<rect x="-56" y="-56" width="112" height="112" fill="none" stroke="url(#gold_${card.id})" stroke-width="1.5" transform="rotate(45)" opacity="0.75" />
-         <rect x="-56" y="-56" width="112" height="112" fill="none" stroke="url(#gold_${card.id})" stroke-width="1.5" opacity="0.5" />`
-    }
+    ${getCardGeometry(index, 'url(#gold_' + card.id + ')')}
 
     <!-- Central Alchemical & Archetypal Emblem -->
     <circle r="42" fill="#1c1e28" stroke="url(#gold_${card.id})" stroke-width="2" filter="url(#glow_${card.id})" />
