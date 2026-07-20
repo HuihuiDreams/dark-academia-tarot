@@ -24,12 +24,12 @@ in this project.
 4. Make surgical edits: modify only the lines needed. Match the existing style
    with TypeScript, vanilla CSS, and Tauri v2 patterns. Remove orphaned code created by
    your edits, and do not touch unrelated code.
-5. Goal-Driven Execution & Chain Verification: When executing multi-step tasks or `/goal` requests:
-   - Solve exactly ONE issue or task at a time.
-   - After each atomic fix, verify and test the functionality (e.g. running `npm run build` or `npm run tauri dev`), and check if any documentation needs updating.
-   - Never batch multiple tasks without completing the verification loop for each step.
-6. Test-Driven Development (TDD): When adding logic or fixing bugs, follow the RED-GREEN-REFACTOR cycle. Write a failing test first, make it pass with minimal code, then refactor. For bug fixes, always write a reproduction test (Prove-It Pattern) before implementing the fix.
-7. Test & Documentation Synchronization: Whenever you modify a source file, you MUST always check and modify the corresponding test file to ensure test coverage is maintained. Additionally, you MUST update any relevant documentation (e.g., `CHANGELOG.md`, `docs/`, or inline architectural comments) to reflect the changes.
+## 🛑 CRITICAL: Execution & Verification Checklist
+**Agents frequently forget to update tests and documentation. You MUST explicitly perform these steps for EVERY code change:**
+1. **Synchronize Tests**: If you modify a source file (e.g., `TarotWidget.ts`), you **MUST** open and update its corresponding test file (e.g., `TarotWidget.test.ts`). Never leave tests out of sync.
+2. **Synchronize Documentation**: You **MUST** update `CHANGELOG.md` and any relevant architectural comments or docs to reflect your new changes.
+3. **Test-Driven Development (TDD)**: Write a failing test (or bug reproduction test) FIRST. Then write the minimal code to make it pass.
+4. **Chain Verification**: Solve exactly ONE issue at a time. Always run `npm run build` or `npm run tauri dev` to verify before moving to the next task.
 
 ## Architecture Boundaries
 
