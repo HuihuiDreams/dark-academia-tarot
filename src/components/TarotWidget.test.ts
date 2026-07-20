@@ -90,6 +90,23 @@ describe('TarotWidget', () => {
     expect(spreadStatus.innerHTML).toContain('2 / 3');
   });
 
+  it('should toggle card flip when Enter or Space is pressed (Keyboard A11y)', () => {
+    const cardScenes = rootElement.querySelectorAll('.tarot-card-scene');
+    const spreadStatus = rootElement.querySelector('#spreadStatus') as HTMLElement;
+
+    // Simulate pressing Enter on first card
+    cardScenes[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    expect(spreadStatus.innerHTML).toContain('1 / 3');
+
+    // Simulate pressing Space on second card
+    cardScenes[1].dispatchEvent(new KeyboardEvent('keydown', { key: ' ' }));
+    expect(spreadStatus.innerHTML).toContain('2 / 3');
+
+    // Unflip first card using Enter
+    cardScenes[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    expect(spreadStatus.innerHTML).toContain('1 / 3');
+  });
+
   it('should draw a new spread when shuffle button is clicked', () => {
     // Flip all cards first
     const cardScenes = rootElement.querySelectorAll('.tarot-card-scene');

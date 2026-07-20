@@ -61,15 +61,15 @@ export class TarotWidget {
           <span class="header-title">ARCANA • TENEBRIS</span>
         </div>
         <div class="header-actions" data-tauri-drag-region="false">
-          <button class="icon-btn" id="btnShuffle" title="洗牌·重塑牌阵 (Reshuffle)">🔀</button>
-          <button class="icon-btn" id="btnSettings" title="契约钥匙·API设置 (Settings)">⚙️</button>
-          <button class="icon-btn" id="btnHide" title="隐藏至托盘 (Hide to Tray)">_</button>
-          <button class="icon-btn" id="btnClose" title="退出占卜微件 (Exit)">✕</button>
+          <button class="icon-btn" id="btnShuffle" title="洗牌·重塑牌阵 (Reshuffle)" aria-label="洗牌与重塑牌阵">🔀</button>
+          <button class="icon-btn" id="btnSettings" title="契约钥匙·API设置 (Settings)" aria-label="API与应用设置">⚙️</button>
+          <button class="icon-btn" id="btnHide" title="隐藏至托盘 (Hide to Tray)" aria-label="隐藏到系统托盘">_</button>
+          <button class="icon-btn" id="btnClose" title="退出占卜微件 (Exit)" aria-label="退出应用">✕</button>
         </div>
       </div>
 
       <!-- Spread Prompt Banner -->
-      <div class="floating-status-banner" id="spreadStatus">
+      <div class="floating-status-banner" id="spreadStatus" role="status" aria-live="polite">
         轻触纸牌揭晓命运密契，三牌尽启召唤暗黑学院指引
       </div>
 
@@ -78,7 +78,7 @@ export class TarotWidget {
         ${this.cards.map((item, index) => `
           <div class="tarot-card-slot" data-tauri-drag-region>
             <div class="card-position-label">${item.positionLabel.split(' · ')[0]}</div>
-            <div class="tarot-card-scene" data-index="${index}">
+            <div class="tarot-card-scene" data-index="${index}" tabindex="0" role="button" aria-label="塔罗牌 ${index + 1}: 翻牌">
               <div class="tarot-card-inner">
                 <!-- Face Down / Card Back -->
                 <div class="card-face card-face-back">
@@ -108,8 +108,9 @@ export class TarotWidget {
           id="questionInput" 
           placeholder="在此敲下心中困惑，或卡壳难题..." 
           autocomplete="off"
+          aria-label="输入心中困惑的问题"
         />
-        <button class="submit-btn" id="btnSubmit" disabled title="必须翻开三张牌方可召唤解答">🔮</button>
+        <button class="submit-btn" id="btnSubmit" disabled title="必须翻开三张牌方可召唤解答" aria-label="召唤暗黑启示">🔮</button>
       </div>
 
       <!-- Floating Interpretation Scroll Area -->
@@ -176,6 +177,14 @@ export class TarotWidget {
 
         const idx = parseInt(scene.getAttribute('data-index') || '0', 10);
         this.toggleCardFlip(idx, scene as HTMLElement);
+      });
+
+      scene.addEventListener('keydown', (e: any) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const idx = parseInt(scene.getAttribute('data-index') || '0', 10);
+          this.toggleCardFlip(idx, scene as HTMLElement);
+        }
       });
     });
 
@@ -280,7 +289,7 @@ export class TarotWidget {
           <span>⏳ 灵感共鸣...</span>
         </div>
         <div class="interpretation-body">
-          <div class="loading-indicator" id="loadingBox">
+          <div class="loading-indicator" id="loadingBox" role="status" aria-busy="true">
             <div class="candle-flame"></div>
             <span>正于学院密室深处翻阅密契心迹，凝聚解读流...</span>
           </div>

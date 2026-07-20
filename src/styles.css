@@ -133,6 +133,13 @@ html, body, #app {
   transform: scale(1.05);
 }
 
+.icon-btn:focus-visible {
+  outline: none;
+  border-color: var(--ink-red);
+  background: rgba(139, 38, 38, 0.1);
+  box-shadow: 0 0 0 2px rgba(139, 38, 38, 0.4);
+}
+
 /* Spread Prompt / Status Indicator (Floating Text) */
 .floating-status-banner {
   text-align: center;
@@ -211,6 +218,14 @@ html, body, #app {
 
 .tarot-card-scene:hover {
   filter: drop-shadow(0 20px 36px rgba(0, 0, 0, 0.95));
+}
+
+.tarot-card-scene:focus-visible {
+  outline: none;
+}
+
+.tarot-card-scene:focus-visible .tarot-card-inner {
+  box-shadow: 0 0 0 3px var(--gold-primary), 0 0 20px rgba(197, 160, 89, 0.5);
 }
 
 .tarot-card-inner {
@@ -319,6 +334,7 @@ html, body, #app {
 
 .floating-input-capsule:focus-within {
   border-color: var(--ink-red);
+  box-shadow: 0 0 12px rgba(139, 38, 38, 0.2);
 }
 
 .question-input {
@@ -376,6 +392,13 @@ html, body, #app {
     inset -2px -2px 6px rgba(0,0,0,0.4), 
     inset 2px 2px 4px rgba(255,255,255,0.2);
   filter: grayscale(100%);
+}
+
+.submit-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(139, 38, 38, 0.6), 
+    inset -4px -4px 8px rgba(0,0,0,0.5), 
+    inset 2px 2px 6px rgba(255,255,255,0.7);
 }
 
 /* Floating Antique Parchment Interpretation Scroll */
@@ -586,9 +609,10 @@ html, body, #app {
   font-family: var(--font-body);
 }
 
-.modal-input:focus {
+.modal-input:focus, .modal-input:focus-visible {
   border-color: var(--ink-red);
-  box-shadow: 0 0 5px rgba(139, 38, 38, 0.2);
+  box-shadow: 0 0 5px rgba(139, 38, 38, 0.4);
+  outline: none;
 }
 
 .modal-actions {
@@ -607,6 +631,17 @@ html, body, #app {
   cursor: pointer;
   font-size: 14px;
   font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:focus-visible {
+  outline: none;
+  border-color: var(--ink-red);
+  box-shadow: 0 0 0 2px rgba(139, 38, 38, 0.3);
+}
+
+.btn-secondary:hover {
+  background: rgba(42, 33, 24, 0.05);
 }
 
 .btn-primary {
@@ -623,6 +658,11 @@ html, body, #app {
 .btn-primary:hover {
   background: #8c2a2a;
   transform: scale(1.02);
+}
+
+.btn-primary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.6);
 }
 
 /* Engine Mode Switcher in SettingsModal */
@@ -660,6 +700,11 @@ html, body, #app {
 .engine-mode-btn:hover {
   color: var(--ink-primary);
   background: rgba(42, 33, 24, 0.05);
+}
+
+.engine-mode-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ink-red);
 }
 
 .engine-mode-btn.active {

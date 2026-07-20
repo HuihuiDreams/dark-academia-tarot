@@ -24,6 +24,7 @@
   - **自适应悬浮标签**：重写了悬浮提示语与卡牌小标签的 CSS 布局（引入 `flex` 容器与圆角羊皮纸底座），彻底解决在浅色系统壁纸下的对比度灾难及文字高度溢出漏洞。
   - **Markdown 实时渲染强化**：升级 `TarotWidget.ts` 流式接收逻辑，借助安全转义与正则实时捕获流式传输的 Markdown `**` 语法，并替换为专享猩红墨水高亮的加粗标签 (`<strong>`)，实现动态强调视效。
   - **卷轴裁切修复**：废除底部解读卷轴的绝对最大高度，重构为高度动态计算的弹性伸缩架构 (`flex: 1`, `min-height: 0`) 配合底部安全内边距，完美解决文本被操作系统窗口强制裁断、无法滚动至末尾的框架缺陷。
+  - **无障碍访问与沉浸式焦点强化 (Accessibility & Dark Academia Focus States)**：全面移除了浏览器默认的突兀焦点蓝框，为所有的按钮、输入框与塔罗牌面 (`tarot-card-scene`) 赋予了契合暗黑学院主题的自定义发光焦点轮廓 (`:focus-visible`)。引入了 `tabindex="0"` 与键盘事件监听器，原生支持通过回车（`Enter`）或空格（`Space`）键进行翻牌操作；并全方位添加了 `aria-label`、`role="status"` 与 `aria-live="polite"` 播报语义标签，使得屏幕阅读器与键盘用户也能获得丝滑完整的占星体验。同步更新了 `TarotWidget.test.ts` 以验证键盘事件控制链路。
 - **私人定制占星模型自由选择与内置引擎提示校准 (`Custom Model Selection & Built-in Engine Accuracy`)**：
   - **内置契约提示准确性同步**：将右上角设置弹窗 (`SettingsModal`) 中关于“内置免费版”的文案由过时的 `Gemini 1.5 Flash` 校准为 `Gemini 2.0 Flash / 多模型智能容灾`，与底层 `GeminiService.ts` 中 `MODELS_TO_TRY` 实际调用的默认链对齐。
   - **私人定制契约多模型选择与自定义输入**：在“私人定制版 (`custom`)”配置页新增驱动模型下拉列表与自定义输入框 (`#modelSelect` 与 `#customModelInput`)，涵盖 `gemini-2.5-pro`（默认旗舰思考）、`gemini-2.5-flash`、`gemini-2.0-pro-exp-02-05` 等主流模型及自由定义名称，配置持久化于 `localStorage` (`dark_academia_tarot_custom_model`)。
