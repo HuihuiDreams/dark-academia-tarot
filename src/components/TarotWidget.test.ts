@@ -55,7 +55,8 @@ describe('TarotWidget', () => {
   it('should render the UI components including the hide button', () => {
     const btnHide = rootElement.querySelector('#btnHide');
     expect(btnHide).not.toBeNull();
-    expect(btnHide?.textContent).toBe('_');
+    expect(btnHide?.querySelector('svg')).not.toBeNull();
+    expect(btnHide?.getAttribute('aria-label')).toBe('隐藏到系统托盘');
   });
 
   it('should call tauri hide API when hide button is clicked', async () => {

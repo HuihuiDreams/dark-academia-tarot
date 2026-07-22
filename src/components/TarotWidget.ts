@@ -57,14 +57,27 @@ export class TarotWidget {
       <!-- Floating Header Capsule / Drag Handle -->
       <div class="floating-header-capsule" data-tauri-drag-region>
         <div class="header-title-box">
-          <span class="header-icon">🔮</span>
+          <span class="header-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M12 2L14.8 9.2L22 12L14.8 14.8L12 22L9.2 14.8L2 12L9.2 9.2Z" fill="var(--gold-primary)" fill-opacity="0.35" stroke="var(--gold-dark)"/>
+              <circle cx="12" cy="12" r="3" fill="var(--ink-red)"/>
+            </svg>
+          </span>
           <span class="header-title">ARCANA • TENEBRIS</span>
         </div>
         <div class="header-actions" data-tauri-drag-region="false">
-          <button class="icon-btn" id="btnShuffle" title="洗牌·重塑牌阵 (Reshuffle)" aria-label="洗牌与重塑牌阵">🔀</button>
-          <button class="icon-btn" id="btnSettings" title="契约钥匙·API设置 (Settings)" aria-label="API与应用设置">⚙️</button>
-          <button class="icon-btn" id="btnHide" title="隐藏至托盘 (Hide to Tray)" aria-label="隐藏到系统托盘">_</button>
-          <button class="icon-btn" id="btnClose" title="退出占卜微件 (Exit)" aria-label="退出应用">✕</button>
+          <button class="icon-btn" id="btnShuffle" title="洗牌·重塑牌阵 (Reshuffle)" aria-label="洗牌与重塑牌阵">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+          </button>
+          <button class="icon-btn" id="btnSettings" title="契约钥匙·API设置 (Settings)" aria-label="API与应用设置">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          </button>
+          <button class="icon-btn" id="btnHide" title="隐藏至托盘 (Hide to Tray)" aria-label="隐藏到系统托盘">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <button class="icon-btn" id="btnClose" title="退出占卜微件 (Exit)" aria-label="退出应用">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
         </div>
       </div>
 
@@ -110,7 +123,11 @@ export class TarotWidget {
           autocomplete="off"
           aria-label="输入心中困惑的问题"
         />
-        <button class="submit-btn" id="btnSubmit" disabled title="必须翻开三张牌方可召唤解答" aria-label="召唤暗黑启示">🔮</button>
+        <button class="submit-btn" id="btnSubmit" disabled title="必须翻开三张牌方可召唤解答" aria-label="召唤暗黑启示">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </button>
       </div>
 
       <!-- Floating Interpretation Scroll Area -->

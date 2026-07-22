@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 ### Added
+- **Dark Academia 视觉与矢量图标重构 (`Dark Academia UI Optimization & SVG Iconography`)**：
+  - **自定义 SVG 矢量图标库**：全面替代了原有的通用 Emoji 占位符号（如 `🔮`, `🔀`, `⚙️`, `_`, `✕`），为微件标题栏、操作按钮及解牌提交按钮绘制了契合暗黑学院美学的高清矢量 SVG 图标（如古典金箔罗盘、炼金齿轮、沉浸式火漆印章等）。
+  - **火漆印章召唤按钮 (`Crimson Wax Seal Submit Button`)**：重构底部提问提交按钮为立体深红火漆印章与金箔符文造型，伴有层次分明的内阴影与悬浮发光边框。
+  - **首字下沉与羊皮纸阅读体验提升 (`Drop-Cap & Parchment Typography`)**：为羊皮纸解牌区域的 Markdown 文本增加了古朴的首字下沉（Drop-Cap）与描边美学，优化了卷轴内阴影、金边细节与暗黑学院风滚轴样式。
 - **Markdown 复制导出 (`Clipboard Markdown Export`)**：在占星启示区域右侧新增了基于 Clipboard API 的悬浮复制按钮。点击后能快速将问题、所抽卡牌（及正逆位状态）以及占星解答格式化为 Markdown 文本并复制到系统剪贴板，方便沉浸式记录于 Notion 或 Obsidian 等知识库中。
 - **系统托盘与最小化支持 (`System Tray & Window Hide`)**：
   - 在前端微件标题栏新增了“隐藏至托盘 (`btnHide`)”按钮。

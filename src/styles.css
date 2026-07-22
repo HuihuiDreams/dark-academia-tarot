@@ -2,13 +2,16 @@
 
 :root {
   /* Parchment & Quill Floating Color Palette */
-  --ink-primary: #1a1614; /* Deep dark sepia/ink */
+  --ink-primary: #181412; /* Deep dark sepia/ink */
   --ink-light: #4a3b2c;
   --ink-red: #8b2626; /* Crimson ink */
+  --ink-crimson: #8b2626;
   
   --parchment-base: #e6d5ac;
+  --parchment-glow: #f3e4c3;
   --gold-primary: #c5a059;
   --gold-dark: #8c6a2c;
+  --gold-bright: #e5c178;
 
   --shadow-dark: rgba(0, 0, 0, 0.85);
   --shadow-paper: rgba(40, 30, 20, 0.6);
@@ -70,13 +73,14 @@ html, body, #app {
   border-radius: 6px;
   filter: drop-shadow(0 8px 16px var(--shadow-paper));
   cursor: grab;
-  transition: border-color 0.3s ease, transform 0.2s ease;
+  transition: border-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
   z-index: 50;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.1), 0 0 12px rgba(197, 160, 89, 0.15);
 }
 
 .floating-header-capsule:hover {
-  border-color: var(--ink-red);
+  border-color: var(--gold-primary);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.12), 0 0 16px rgba(197, 160, 89, 0.3);
 }
 
 .floating-header-capsule:active {
@@ -91,12 +95,14 @@ html, body, #app {
 }
 
 .header-icon {
-  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .header-title {
   font-family: var(--font-title);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 2px;
   color: var(--ink-primary);
@@ -112,8 +118,8 @@ html, body, #app {
 }
 
 .icon-btn {
-  background: transparent;
-  border: 1px solid var(--ink-primary);
+  background: rgba(26, 22, 20, 0.04);
+  border: 1px solid var(--gold-dark);
   color: var(--ink-primary);
   width: 28px;
   height: 28px;
@@ -124,6 +130,14 @@ html, body, #app {
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 13px;
+  padding: 0;
+}
+
+.icon-btn svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--ink-primary);
+  transition: stroke 0.2s ease;
 }
 
 .icon-btn:hover {
@@ -131,6 +145,11 @@ html, body, #app {
   color: #fff;
   border-color: var(--ink-red);
   transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(139, 38, 38, 0.4);
+}
+
+.icon-btn:hover svg {
+  stroke: #ffffff;
 }
 
 .icon-btn:focus-visible {
@@ -143,15 +162,15 @@ html, body, #app {
 /* Spread Prompt / Status Indicator (Floating Text) */
 .floating-status-banner {
   text-align: center;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--ink-primary);
   background-image: url('assets/ui/parchment_bg.png');
   background-size: cover;
-  padding: 8px 24px;
-  border-radius: 24px;
-  border: 1px solid rgba(140, 106, 44, 0.3);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  padding: 6px 20px;
+  border-radius: 20px;
+  border: 1px solid rgba(140, 106, 44, 0.4);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
   letter-spacing: 1px;
   pointer-events: none;
   display: flex;
@@ -200,11 +219,12 @@ html, body, #app {
   background-size: cover;
   padding: 2px 8px;
   border-radius: 4px;
-  border: 1px solid rgba(140, 106, 44, 0.3);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  border: 1px solid rgba(140, 106, 44, 0.4);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.35);
   font-weight: 700;
   pointer-events: none;
   margin-bottom: 2px;
+  font-variant: small-caps;
 }
 
 .tarot-card-scene {
@@ -213,11 +233,12 @@ html, body, #app {
   perspective: 1200px;
   cursor: pointer;
   filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.88));
-  transition: filter 0.3s ease;
+  transition: filter 0.3s ease, transform 0.3s ease;
 }
 
 .tarot-card-scene:hover {
-  filter: drop-shadow(0 20px 36px rgba(0, 0, 0, 0.95));
+  filter: drop-shadow(0 20px 36px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 10px rgba(197, 160, 89, 0.35));
+  transform: translateY(-2px);
 }
 
 .tarot-card-scene:focus-visible {
@@ -274,14 +295,14 @@ html, body, #app {
 
 /* Flipped Card Mini Info below card */
 .card-mini-info {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--ink-primary);
   background-image: url('assets/ui/parchment_bg.png');
   background-size: cover;
   padding: 4px 8px;
   border-radius: 4px;
-  border: 1px solid rgba(140, 106, 44, 0.3);
+  border: 1px solid rgba(140, 106, 44, 0.35);
   box-shadow: 0 4px 10px rgba(0,0,0,0.4);
   text-align: center;
   line-height: 1.35;
@@ -334,7 +355,7 @@ html, body, #app {
 
 .floating-input-capsule:focus-within {
   border-color: var(--ink-red);
-  box-shadow: 0 0 12px rgba(139, 38, 38, 0.2);
+  box-shadow: 0 0 14px rgba(139, 38, 38, 0.25);
 }
 
 .question-input {
@@ -354,51 +375,64 @@ html, body, #app {
   opacity: 0.8;
 }
 
+/* Crimson Wax Seal / Alchemical Submit Button */
 .submit-btn {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #e2d1f9 0%, #b388ff 25%, #7e57c2 55%, #311b92 85%, #1a0033 100%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #fff;
+  background: radial-gradient(circle at 35% 35%, #a63232 0%, #8b2626 50%, #5c1818 85%, #3d0e0e 100%);
+  border: 1.5px solid var(--gold-primary);
+  color: var(--gold-bright);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-  font-size: 16px;
+  font-size: 15px;
   flex-shrink: 0;
   box-shadow: 
-    inset -4px -4px 8px rgba(0,0,0,0.5), 
-    inset 2px 2px 6px rgba(255,255,255,0.7), 
-    0 4px 8px rgba(49, 27, 146, 0.4);
+    inset -3px -3px 6px rgba(0,0,0,0.6), 
+    inset 2px 2px 4px rgba(255,230,153,0.3), 
+    0 4px 10px rgba(139, 38, 38, 0.4);
+}
+
+.submit-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: var(--gold-bright);
+  stroke: var(--ink-primary);
 }
 
 .submit-btn:hover:not(:disabled) {
   transform: scale(1.1);
-  background: radial-gradient(circle at 35% 35%, #f4ebff 0%, #c4a1ff 25%, #8c60da 55%, #4225af 85%, #230046 100%);
+  background: radial-gradient(circle at 35% 35%, #c03939 0%, #9e2b2b 50%, #6e1c1c 85%, #4a1111 100%);
+  border-color: var(--gold-bright);
   box-shadow: 
-    inset -4px -4px 8px rgba(0,0,0,0.6), 
-    inset 2px 2px 6px rgba(255,255,255,0.8), 
-    0 6px 12px rgba(49, 27, 146, 0.6);
+    inset -3px -3px 6px rgba(0,0,0,0.7), 
+    inset 2px 2px 6px rgba(255,230,153,0.5), 
+    0 6px 14px rgba(139, 38, 38, 0.6);
 }
 
 .submit-btn:disabled {
-  background: radial-gradient(circle at 50% 50%, #a0a0a0 0%, #606060 50%, #303030 100%);
-  border-color: rgba(255, 255, 255, 0.15);
-  color: rgba(255,255,255,0.4);
+  background: radial-gradient(circle at 50% 50%, #706860 0%, #4a443e 60%, #2e2a26 100%);
+  border-color: rgba(140, 106, 44, 0.3);
+  color: rgba(230, 213, 172, 0.3);
   cursor: not-allowed;
   box-shadow: 
     inset -2px -2px 6px rgba(0,0,0,0.4), 
-    inset 2px 2px 4px rgba(255,255,255,0.2);
-  filter: grayscale(100%);
+    inset 2px 2px 4px rgba(255,255,255,0.1);
+  filter: grayscale(80%);
+}
+
+.submit-btn:disabled svg {
+  fill: rgba(230, 213, 172, 0.3);
+  stroke: rgba(26, 22, 20, 0.5);
 }
 
 .submit-btn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(139, 38, 38, 0.6), 
-    inset -4px -4px 8px rgba(0,0,0,0.5), 
-    inset 2px 2px 6px rgba(255,255,255,0.7);
+  box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.6), 
+    inset -3px -3px 6px rgba(0,0,0,0.5);
 }
 
 /* Floating Antique Parchment Interpretation Scroll */
@@ -410,7 +444,7 @@ html, body, #app {
   background-position: center;
   
   border-radius: 3px;
-  border: 1px solid rgba(140, 106, 44, 0.3);
+  border: 1px solid rgba(140, 106, 44, 0.4);
   
   padding: 18px 24px;
   filter: drop-shadow(0 16px 36px var(--shadow-paper));
@@ -447,7 +481,7 @@ html, body, #app {
 
 .floating-interpretation-scroll::-webkit-scrollbar-thumb,
 .interpretation-body::-webkit-scrollbar-thumb {
-  background: rgba(42, 33, 24, 0.4);
+  background: rgba(140, 106, 44, 0.5);
   border-radius: 2px;
 }
 
@@ -475,6 +509,16 @@ html, body, #app {
   user-select: text;
   text-shadow: 0 0 1px rgba(42, 33, 24, 0.15); /* Ink bleed */
   padding-bottom: 24px;
+}
+
+.interpretation-text::first-letter {
+  font-size: 1.8em;
+  font-weight: 700;
+  color: var(--ink-red);
+  float: left;
+  line-height: 1;
+  margin-right: 4px;
+  font-family: var(--font-title);
 }
 
 .interpretation-text strong {
