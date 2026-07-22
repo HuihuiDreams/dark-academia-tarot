@@ -1,4 +1,5 @@
-const STORAGE_KEY = 'dark_academia_tarot_api_key';
+import { invoke } from '@tauri-apps/api/core';
+
 const MODE_KEY = 'dark_academia_tarot_engine_mode';
 const CUSTOM_MODEL_KEY = 'dark_academia_tarot_custom_model';
 
@@ -66,6 +67,7 @@ export class SettingsModal {
           <button class="btn-secondary" id="btnCloseModal">取消关闭</button>
           <button class="btn-primary" id="btnSaveModal">缔结契约 (保存)</button>
         </div>
+        <div class="modal-error" id="modalError" style="display: none; color: var(--ink-red); font-size: 0.85em; text-align: center; padding: 6px 0 0;"></div>
       </div>
     `;
 
@@ -94,15 +96,25 @@ export class SettingsModal {
       }
     });
 
+    const errorBox = this.container.querySelector('#modalError') as HTMLElement;
+
     btnClose.addEventListener('click', () => this.hide());
     
-    btnSave.addEventListener('click', () => {
+    btnSave.addEventListener('click', async () => {
+      errorBox.style.display = 'none';
       localStorage.setItem(MODE_KEY, this.currentMode);
       const val = input.value.trim();
-      if (val) {
-        localStorage.setItem(STORAGE_KEY, val);
-      } else {
-        localStorage.removeItem(STORAGE_KEY);
+      try {
+        if (val) {
+          await invoke('save_api_key', { key: val });
+        } else {
+          await invoke('delete_api_key');
+        }
+      } catch (e) {
+        console.error('Failed to save API key:', e);
+        errorBox.textContent = '⚠️ 契约封存失败，请检查系统权限后重试。';
+        errorBox.style.display = 'block';
+        return; // Don't close the modal or fire callback on failure
       }
 
       let chosenModel = modelSelect.value;
@@ -149,13 +161,13 @@ export class SettingsModal {
     }
   }
 
-  public show(onKeyChange?: (key: string) => void) {
+  public async show(onKeyChange?: (key: string) => void) {
     if (onKeyChange) {
       this.onKeyChangeCallback = onKeyChange;
     }
-    const savedMode = SettingsModal.getEngineMode();
+    const savedMode = await SettingsModal.getEngineMode();
     const input = this.container.querySelector('#apiKeyInput') as HTMLInputElement;
-    input.value = localStorage.getItem(STORAGE_KEY) || '';
+    input.value = (await SettingsModal.getApiKey()) || '';
 
     const savedModel = SettingsModal.getCustomModel();
     const modelSelect = this.container.querySelector('#modelSelect') as HTMLSelectElement;
@@ -182,16 +194,22 @@ export class SettingsModal {
     this.container.classList.remove('active');
   }
 
-  public static getEngineMode(): EngineMode {
+  public static async getEngineMode(): Promise<EngineMode> {
     const mode = localStorage.getItem(MODE_KEY);
-    if (mode === 'custom' && localStorage.getItem(STORAGE_KEY)) {
+    const hasKey = !!(await this.getApiKey());
+    if (mode === 'custom' && hasKey) {
       return 'custom';
     }
     return 'builtin';
   }
 
-  public static getApiKey(): string | null {
-    return localStorage.getItem(STORAGE_KEY);
+  public static async getApiKey(): Promise<string | null> {
+    try {
+      const key = await invoke<string>('get_api_key');
+      return key ? key : null;
+    } catch (e) {
+      return null;
+    }
   }
 
   public static getCustomModel(): string {

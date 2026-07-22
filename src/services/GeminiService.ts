@@ -19,8 +19,8 @@ export class GeminiService {
     cards: DrawnCard[],
     callbacks: StreamCallbacks
   ): Promise<void> {
-    let apiKey = SettingsModal.getApiKey();
-    const engineMode = SettingsModal.getEngineMode();
+    let apiKey = await SettingsModal.getApiKey();
+    const engineMode = await SettingsModal.getEngineMode();
 
     if (engineMode === 'builtin' || !apiKey) {
       try {

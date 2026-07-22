@@ -3,6 +3,7 @@ import { GeminiService } from '../services/GeminiService';
 import { SettingsModal } from './SettingsModal';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { listen, emit } from '@tauri-apps/api/event';
+import DOMPurify from 'dompurify';
 
 export class TarotWidget {
   private root: HTMLElement;
@@ -242,8 +243,8 @@ export class TarotWidget {
     });
 
     // Tray Menu IPC Event Listeners
-    listen('open-settings', () => {
-      this.settingsModal.show();
+    listen('open-settings', async () => {
+      await this.settingsModal.show();
     }).catch(console.error);
 
     listen('draw-new-spread', () => {
@@ -339,12 +340,11 @@ export class TarotWidget {
         }
         fullText += chunk;
         
-        // Escape HTML and parse **bold** Markdown
-        let safeText = fullText.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        safeText = safeText.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-        safeText = safeText.replace(/\*\*([^*]+)$/, '<strong>$1</strong>');
+        // Escape HTML and parse **bold** Markdown securely
+        let parsedText = fullText.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        parsedText = parsedText.replace(/\*\*([^*]+)$/, '<strong>$1</strong>');
         
-        textBox.innerHTML = safeText;
+        textBox.innerHTML = DOMPurify.sanitize(parsedText);
         
         const scrollElem = container.querySelector('.interpretation-body');
         if (scrollElem) {

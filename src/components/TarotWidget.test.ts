@@ -4,6 +4,13 @@ import { getCurrentWindow } from '@tauri-apps/api/window';
 import { emit } from '@tauri-apps/api/event';
 import { GeminiService } from '../services/GeminiService';
 
+vi.mock('@tauri-apps/api/core', () => ({
+  invoke: vi.fn(async (cmd) => {
+    if (cmd === 'get_api_key') return 'mock-key';
+    return '';
+  })
+}));
+
 // Mock Tauri API
 Object.assign(navigator, {
   clipboard: {
@@ -234,9 +241,9 @@ describe('TarotWidget', () => {
     expect(streamOutput.textContent).toContain('[占卜通联异常] Test Error Message');
   });
 
-  it('should open settings modal when open-settings IPC event is received', () => {
+  it('should open settings modal when open-settings IPC event is received', async () => {
     expect(mockListeners['open-settings']).toBeDefined();
-    mockListeners['open-settings']();
+    await mockListeners['open-settings']();
     
     const modal = document.querySelector('.modal-backdrop');
     expect(modal?.classList.contains('active')).toBe(true);

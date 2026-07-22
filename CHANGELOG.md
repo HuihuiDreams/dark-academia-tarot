@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 ### Added
+- **安全加固：操作系统密钥链 API Key 存储 (`OS Keychain API Key Storage`)**：将用户私人 Google Gemini API Key 的存储机制从前端明文 `localStorage` 迁移至操作系统原生密钥链（macOS Keychain / Windows Credential Manager）。在 Rust 后端引入 `keyring` crate，新增 `save_api_key`、`get_api_key`、`delete_api_key` 三条 Tauri IPC 命令，并提取 `KEYRING_SERVICE`/`KEYRING_ACCOUNT` 常量消除重复。前端 `SettingsModal.ts` 与 `GeminiService.ts` 已全面迁移为异步 IPC 调用，消除私钥明文落盘风险。保存失败时前端现在展示内联错误提示且不关闭弹窗，防止用户误以为保存成功。
+- **安全加固：AI 输出 XSS 防护 (`DOMPurify XSS Mitigation`)**：在 `TarotWidget.ts` 中引入 `dompurify` 库，对 Gemini 模型流式输出在注入 DOM 前进行彻底净化，替换原有的手工正则 HTML 转义方案，防范恶意内容注入攻击。
 - **Dark Academia 视觉与矢量图标重构 (`Dark Academia UI Optimization & SVG Iconography`)**：
   - **自定义 SVG 矢量图标库**：全面替代了原有的通用 Emoji 占位符号（如 `🔮`, `🔀`, `⚙️`, `_`, `✕`），为微件标题栏、操作按钮及解牌提交按钮绘制了契合暗黑学院美学的高清矢量 SVG 图标（如古典金箔罗盘、炼金齿轮、沉浸式火漆印章等）。
   - **火漆印章召唤按钮 (`Crimson Wax Seal Submit Button`)**：重构底部提问提交按钮为立体深红火漆印章与金箔符文造型，伴有层次分明的内阴影与悬浮发光边框。

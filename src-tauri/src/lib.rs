@@ -3,6 +3,9 @@ use tauri::{
     Manager, Emitter, Listener
 };
 
+const KEYRING_SERVICE: &str = "dark_academia_tarot";
+const KEYRING_ACCOUNT: &str = "api_key";
+
 // ----------------------------------------------------------------------------
 // XOR Obfuscated Built-in Free Gemini API Key
 // ----------------------------------------------------------------------------
@@ -23,10 +26,30 @@ fn get_fallback_api_key() -> String {
         .collect()
 }
 
+#[tauri::command]
+fn save_api_key(key: String) -> Result<(), String> {
+    let entry = keyring::Entry::new(KEYRING_SERVICE, KEYRING_ACCOUNT).map_err(|e| e.to_string())?;
+    entry.set_password(&key).map_err(|e| e.to_string())?;
+    Ok(())
+}
+
+#[tauri::command]
+fn get_api_key() -> Result<String, String> {
+    let entry = keyring::Entry::new(KEYRING_SERVICE, KEYRING_ACCOUNT).map_err(|e| e.to_string())?;
+    entry.get_password().map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+fn delete_api_key() -> Result<(), String> {
+    let entry = keyring::Entry::new(KEYRING_SERVICE, KEYRING_ACCOUNT).map_err(|e| e.to_string())?;
+    let _ = entry.delete_credential();
+    Ok(())
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![get_fallback_api_key])
+    .invoke_handler(tauri::generate_handler![get_fallback_api_key, save_api_key, get_api_key, delete_api_key])
     .setup(|app| {
       let toggle_visibility_i = MenuItem::with_id(app, "toggle_visibility", "隐藏 (Hide)", true, None::<&str>)?;
       let settings_i = MenuItem::with_id(app, "settings", "设置 (Settings)", true, None::<&str>)?;
